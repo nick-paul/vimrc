@@ -60,6 +60,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 
 " COLOR THEME
+" https://raw.githubusercontent.com/sickill/vim-monokai/master/colors/monokai.vim
 
 syntax on
 colorscheme monokai
