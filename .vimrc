@@ -3,7 +3,7 @@ filetype off                  " required
 
 
 " VUNDLE
-" 'PluginInstall' to install 
+" Command 'PluginInstall' to install 
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
