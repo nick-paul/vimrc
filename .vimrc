@@ -2,11 +2,10 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 
+
+
 " VUNDLE
-" Installation:
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-" 'PluginInstall' to run installer
- 
+" 'PluginInstall' ro install 
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -17,18 +16,41 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" Trww view
 Plugin 'scrooloose/nerdtree'
+" Alignment
 Plugin 'godlygeek/tabular'
+" Markdown enable
 Plugin 'plasticboy/vim-markdown'
+" Tab completions
 Plugin 'ervandew/supertab'
+" Minimap
 Plugin 'severin-lemaignan/vim-minimap'
+" sublime text style multiple cursors
 Plugin 'terryma/vim-multiple-cursors'
+" View indent guides (:IndentGuides*)
 Plugin 'nathanaelkane/vim-indent-guides'
+" Better status bar
 Plugin 'bling/vim-airline'
+" Git wrapper
 Plugin 'tpope/vim-fugitive'
+" Python autocomplete
 Plugin 'davidhalter/jedi-vim'
+" Git line modification ui
 Plugin 'airblade/vim-gitgutter'
+" Syntax checking
 Plugin 'vim-syntastic/syntastic'
+" NERDTree git ui
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Enhanced C++ highlighting
+Plugin 'octol/vim-cpp-enhanced-highlight'
+" airline themes
+" Plugin 'vim-airline/vim-airline-themes'
+" Distraction free writing
+Plugin 'junegunn/goyo.vim'
+" Pyhsics based scrolling
+Plugin 'yuttie/comfortable-motion.vim'
+
 
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
@@ -40,9 +62,6 @@ filetype plugin indent on    " required
 
 
 " VIM PLUG
-" Installation:
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 call plug#begin()
 Plug 'JuliaEditorSupport/julia-vim'
@@ -60,7 +79,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 
 " COLOR THEME
-" https://raw.githubusercontent.com/sickill/vim-monokai/master/colors/monokai.vim
 
 syntax on
 colorscheme monokai
@@ -70,11 +88,20 @@ colorscheme monokai
 " OTHER SETTINGS
 
 set tabstop=4
+set expandtab
+set softtabstop=4 "make <tab> and <bs> insert and del 4 spaces
 set shiftwidth=4
 set cursorline
 set mouse=a
 " incremental 'live' search
 set incsearch
+" invisible chars
+scriptencoding utf-8
+set encoding=utf-8
+set list listchars=tab:»·,trail:·
+
+au FileType cpp,c setl mp=make\ %:t:r
+
 
 "vim-airline view
 set laststatus=2
@@ -85,6 +112,11 @@ let g:minimap_highlight='Visual'
 " run in browser
 nnoremap <F12>f :exe ':silent !firefox %'<CR>
 
+
+nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
+
 " Keybindings
 map <C-\> :NERDTreeToggle<CR>
 map <C-m> :MinimapToggle<CR>
+nnoremap ; :
