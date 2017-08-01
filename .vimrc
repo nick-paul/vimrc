@@ -1,3 +1,5 @@
+" clone: https://gist.github.com/b33b508f94f3ab81f42a08267dd42aaa.git
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
