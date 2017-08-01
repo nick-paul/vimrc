@@ -1,7 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" robofest computer test
 
 " VUNDLE
 " Command 'PluginInstall' to install 
