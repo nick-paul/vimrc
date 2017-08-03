@@ -87,6 +87,8 @@ colorscheme monokai
 
 " OTHER SETTINGS
 
+" use system clipboard by default
+set clipboard=unnamedplus
 set tabstop=4
 set expandtab
 set softtabstop=4 "make <tab> and <bs> insert and del 4 spaces
