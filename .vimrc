@@ -1,5 +1,3 @@
-" clone: https://gist.github.com/b33b508f94f3ab81f42a08267dd42aaa.git
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -7,6 +5,8 @@ let mapleader = ","
 " Quickly open/reload vim
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
+
 
 " VUNDLE
 " Command 'PluginInstall' to install 
@@ -49,12 +49,17 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Enhanced C++ highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight'
 " airline themes
-" Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-airline/vim-airline-themes'
 " Distraction free writing
 Plugin 'junegunn/goyo.vim'
 " Pyhsics based scrolling
 Plugin 'yuttie/comfortable-motion.vim'
+" Colorscheme Management
+Plugin 'flazz/vim-colorschemes'
 
+" Other languages:
+Plugin 'JuliaEditorSupport/julia-vim'
+Plugin 'rust-lang/rust.vim'
 
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
@@ -62,15 +67,6 @@ let g:vim_markdown_folding_disabled = 1
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-
-
-" VIM PLUG
-
-call plug#begin()
-Plug 'JuliaEditorSupport/julia-vim'
-Plug 'rust-lang/rust.vim'
-call plug#end()
 
 
 " NERDTree
@@ -83,11 +79,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Show hiddne files
 let NERDTreeShowHidden=1
 
-" COLOR THEME
 
+" COLOR / THEME
 syntax on
-colorscheme monokai
 
+" :colorscheme <color>
+colorscheme monokai
+" :AirlineTheme <color>
+let g:airline_theme='dark'
 
 
 " OTHER SETTINGS
