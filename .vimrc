@@ -3,6 +3,10 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+let mapleader = ","
+" Quickly open/reload vim
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " VUNDLE
 " Command 'PluginInstall' to install 
@@ -76,7 +80,8 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 " NERDTree exit vim if only NERDTree is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
+" Show hiddne files
+let NERDTreeShowHidden=1
 
 " COLOR THEME
 
@@ -119,6 +124,15 @@ nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
 
 " Keybindings
-map <C-\> :NERDTreeToggle<CR>
-map <C-m> :MinimapToggle<CR>
+nnoremap <C-\> :NERDTreeToggle<CR>
+nnoremap <leader>m :MinimapToggle<CR>
 nnoremap ; :
+inoremap <leader><leader> <Esc>
+nnoremap <leader>a <C-w><Left>
+nnoremap <leader>d <C-w><Right>
+nnoremap <leader>w <C-w><Up>
+nnoremap <leader>s <C-w><Down>
+nnoremap <leader>n :set number!<CR>
+
+iabbrev feild field
+
