@@ -184,7 +184,7 @@ nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
 
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
-
+nnoremap <silent> <leader>bc :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
 " AUTOCORRECT
 """""""""""""""
 iabbrev feild field
