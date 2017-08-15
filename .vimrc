@@ -2,7 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 let mapleader = ","
-" Quickly open/reload vim
+" Quickly open/reload vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -21,7 +21,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Trww view
+" Tree view
 Plugin 'scrooloose/nerdtree'
 " Alignment
 Plugin 'godlygeek/tabular'
@@ -59,7 +59,6 @@ Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'flazz/vim-colorschemes'
 " Fuzzy file search
 Plugin 'ctrlpvim/ctrlp.vim'
-
 " Other languages:
 Plugin 'JuliaEditorSupport/julia-vim'
 Plugin 'rust-lang/rust.vim'
@@ -94,7 +93,6 @@ function! ToggleLightDark ()
 endfunction
 
 nnoremap <leader>t :call ToggleLightDark()<CR>
-
 
 
 " BASIC SETTINGS
@@ -137,6 +135,27 @@ let NERDTreeShowHidden=1                " show hidden files
 nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
 
+" Syntastic
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+
+" Goyo Toggle 
+let is_using_goyo = 0
+
+function! ToggleGoyoView ()
+    if g:is_using_goyo == 1
+        :Goyo!
+        let g:is_using_goyo = 0
+    else
+        :Goyo 80%
+        let g:is_using_goyo = 1
+    endif
+endfunction
+
+nnoremap <leader>g :call ToggleGoyoView()<CR>
+
+
 
 " KEY MAPPINGS
 """"""""""""""""
@@ -145,6 +164,7 @@ nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
 nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
 " preview markdown in browser
 nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
+
 
 nnoremap <C-\> :NERDTreeToggle<CR>
 nnoremap <leader>m :MinimapToggle<CR>
@@ -157,7 +177,13 @@ nnoremap <leader>s <C-w><Down>
 nnoremap <leader>n :set number!<CR>
 nnoremap <C-Up> :move -2<CR>
 nnoremap <C-Down> :move +1<CR>
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
 
+nnoremap <Up> g<Up>
+nnoremap <Down> g<Down>
+
+nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
 
 " AUTOCORRECT
 """""""""""""""
