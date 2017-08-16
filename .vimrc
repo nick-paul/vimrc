@@ -59,6 +59,9 @@ Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'flazz/vim-colorschemes'
 " Fuzzy file search
 Plugin 'ctrlpvim/ctrlp.vim'
+" Autocomplete braces
+Plugin 'jiangmiao/auto-pairs'
+
 " Other languages:
 Plugin 'JuliaEditorSupport/julia-vim'
 Plugin 'rust-lang/rust.vim'
