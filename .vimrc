@@ -61,6 +61,10 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Autocomplete braces
 Plugin 'jiangmiao/auto-pairs'
+" Commenting
+Plugin 'tpope/vim-commentary'
+" Autoclose (X)HTML tags
+Plugin 'alvan/vim-closetag'
 
 " Other languages:
 Plugin 'JuliaEditorSupport/julia-vim'
@@ -158,9 +162,10 @@ endfunction
 
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
+" XHTML Autoclose
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.launch'
+let g:closetag_shortcut = '>'
 
-
-" KEY MAPPINGS
 """"""""""""""""
 
 " run in browser
@@ -191,13 +196,16 @@ nnoremap <silent> <leader>bc :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
 " AUTOCORRECT
 """""""""""""""
 iabbrev feild field
-
+iabbrev exapmles examples
 
 
 
 " OTHER SETTINGS
 """"""""""""""""""
 
+" ROS
+autocmd BufNewFile,BufRead *.launch set syntax=xml
+autocmd BufNewFile,BufRead *.cfg set syntax=python
 
 " leave insert mode quickly
 " disables iremap <Esc>...
