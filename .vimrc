@@ -63,6 +63,10 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdcommenter'
 " Vim LaTeX
 Plugin 'lervag/vimtex'
+" Autocomplete braces
+Plugin 'jiangmiao/auto-pairs'
+" Autoclose (X)HTML tage
+Plugin 'alvan/vim-closetag'
 
 " Other languages:
 Plugin 'JuliaEditorSupport/julia-vim'
@@ -161,6 +165,11 @@ endfunction
 
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
+" XHTML Autoclose
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.launch'
+let g:closetag_shortcut = '>'
+
+
 
 
 " KEY MAPPINGS
@@ -211,15 +220,6 @@ nnoremap <leader>bc :w<CR>:make %:t:r<CR>
 nnoremap <silent> <leader>ml :w<CR>:!latexmk -c %<CR>:!gnome-open %:r.pdf<CR><CR>
 
 
-function! s:CompleteTags()
-  inoremap <buffer> > ></<C-x><C-o><Esc>:startinsert!<CR><C-O>?</<CR>
-  inoremap <buffer> ><Leader> >
-  inoremap <buffer> ><CR> ></<C-x><C-o><Esc>:startinsert!<CR><C-O>?</<CR><CR><Tab><CR><Up><C-O>$
-endfunction
-autocmd BufRead,BufNewFile *.html,*.js,*.xml call s:CompleteTags()
-
-
-
 " AUTOCORRECT
 """""""""""""""
 iabbrev feild field
@@ -229,6 +229,11 @@ iabbrev feild field
 
 " OTHER SETTINGS
 """"""""""""""""""
+
+" ROS
+autocmd BufNewFile,BufRead *.launch set syntax=xml
+autocmd BufNewFile,BufRead *.cfg set syntax=python
+
 
 
 " leave insert mode quickly
