@@ -40,11 +40,11 @@ Plugin 'bling/vim-airline'
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 " Python autocomplete
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
 " Git line modification ui
 Plugin 'airblade/vim-gitgutter'
 " Syntax checking
-Plugin 'vim-syntastic/syntastic'
+" Plugin 'vim-syntastic/syntastic'
 " NERDTree git ui
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Enhanced C++ highlighting
@@ -59,6 +59,11 @@ Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'flazz/vim-colorschemes'
 " Fuzzy file search
 Plugin 'ctrlpvim/ctrlp.vim'
+" Quickly comment selections
+Plugin 'scrooloose/nerdcommenter'
+" Vim LaTeX
+Plugin 'lervag/vimtex'
+
 " Other languages:
 Plugin 'JuliaEditorSupport/julia-vim'
 Plugin 'rust-lang/rust.vim'
@@ -113,7 +118,8 @@ set scrolloff=2             " two lines above and below the cursor when scrollin
 set spelllang=en_us
 
 " :make to compile .c and cpp files
-au FileType cpp,c setl mp=make\ %:t:r
+au FileType cpp,c,rs setl mp=make\ %:t:r
+let $CXXFLAGS='-std=c++11'
 
 
 
@@ -161,30 +167,59 @@ nnoremap <leader>g :call ToggleGoyoView()<CR>
 """"""""""""""""
 
 " run in browser
-nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+""nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+nnoremap <leader>ff :silent update<Bar>silent !firefox %:p &<CR><CR><C-l>
 " preview markdown in browser
 nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
 
-
+" Quick Settings
 nnoremap <C-\> :NERDTreeToggle<CR>
 nnoremap <leader>m :MinimapToggle<CR>
 nnoremap ; :
 inoremap <leader><leader> <Esc>
+nnoremap <leader>n :set number!<CR>
+nnoremap <leader>p :set paste<CR>p :set nopaste<CR>
+" Window Navigation
 nnoremap <leader>a <C-w><Left>
 nnoremap <leader>d <C-w><Right>
 nnoremap <leader>w <C-w><Up>
 nnoremap <leader>s <C-w><Down>
-nnoremap <leader>n :set number!<CR>
+" Move lines uou and down
 nnoremap <C-Up> :move -2<CR>
 nnoremap <C-Down> :move +1<CR>
+" Tab / untab lines
 vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
-
+" Select all
+nnoremap <C-a> ggvG$
+inoremap <C-a> <esc>ggvG$
+" Don't copy when deleting
+nnoremap d "_d
+" Toggle Line Comments
+vmap <C-_> <leader>c<space>
+nmap <C-_> <leader>c<space>
+" Cursor Navigation
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
 
+
+" Running / Building Files
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
-nnoremap <silent> <leader>bc :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
+nnoremap <silent> <leader>bP :w<CR>:!clear;python3 %<CR>
+nnoremap <silent> <leader>br :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
+nnoremap <leader>bc :w<CR>:make %:t:r<CR>
+nnoremap <silent> <leader>ml :w<CR>:!latexmk -c %<CR>:!gnome-open %:r.pdf<CR><CR>
+
+
+function! s:CompleteTags()
+  inoremap <buffer> > ></<C-x><C-o><Esc>:startinsert!<CR><C-O>?</<CR>
+  inoremap <buffer> ><Leader> >
+  inoremap <buffer> ><CR> ></<C-x><C-o><Esc>:startinsert!<CR><C-O>?</<CR><CR><Tab><CR><Up><C-O>$
+endfunction
+autocmd BufRead,BufNewFile *.html,*.js,*.xml call s:CompleteTags()
+
+
+
 " AUTOCORRECT
 """""""""""""""
 iabbrev feild field
