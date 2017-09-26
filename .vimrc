@@ -2,6 +2,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 let mapleader = ","
+set backspace=2
+
 " Quickly open/reload vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
@@ -144,7 +146,8 @@ let NERDTreeShowHidden=1                " show hidden files
 " Comfortable Motion
 nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
-
+nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
+nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
@@ -204,6 +207,8 @@ nnoremap <C-a> ggvG$
 inoremap <C-a> <esc>ggvG$
 " Don't copy when deleting
 nnoremap d "_d
+" Yank to system clipboard
+nnoremap y "+y
 " Toggle Line Comments
 vmap <C-_> <leader>c<space>
 nmap <C-_> <leader>c<space>
