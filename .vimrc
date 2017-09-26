@@ -110,22 +110,20 @@ nnoremap <leader>t :call ToggleLightDark()<CR>
 """"""""""""""""""""
 
 set clipboard=unnamedplus   " use system clipboard by default
-set tabstop=4
-set expandtab
+set tabstop=4               " make tabsize 4 spaces
+set expandtab               " use spaces instead of tabs
 set softtabstop=4           " make <tab> and <bs> insert and del 4 spaces
-set shiftwidth=4
-set cursorline
-set mouse=a
+set shiftwidth=4            " width when shifting
+set cursorline              " Highlight current line
+set mouse=a                 " Enable mouse support
 set incsearch               " incremental 'live' search
 scriptencoding utf-8        " invisible chars
-set encoding=utf-8
-set list listchars=tab:»·,trail:·
 set scrolloff=2             " two lines above and below the cursor when scrolling
-set spelllang=en_us
+set encoding=utf-8          " Unicode support
+set spelllang=en_us         " Spellcheck dictionary
 
-" :make to compile .c and cpp files
-au FileType cpp,c,rs setl mp=make\ %:t:r
-let $CXXFLAGS='-std=c++11'
+set list listchars=tab:»·,trail:·
+
 
 
 
@@ -146,8 +144,8 @@ let NERDTreeShowHidden=1                " show hidden files
 " Comfortable Motion
 nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <S-k> :call comfortable_motion#flick(-100)<CR>
+nnoremap <silent> <S-j> :call comfortable_motion#flick(100)<CR>
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
@@ -197,8 +195,14 @@ nnoremap <leader>d <C-w><Right>
 nnoremap <leader>w <C-w><Up>
 nnoremap <leader>s <C-w><Down>
 " Move lines uou and down
-nnoremap <C-Up> :move -2<CR>
-nnoremap <C-Down> :move +1<CR>
+"nnoremap <C-Up> :move -2<CR>
+"nnoremap <C-Down> :move +1<CR>
+" move selected lines up one line
+xnoremap <C-Up>  :m-2<CR>gv=gv
+
+" move selected lines down one line
+xnoremap <C-Down> :m'>+<CR>gv=gv
+
 " Tab / untab lines
 vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
@@ -218,6 +222,13 @@ nnoremap <Down> g<Down>
 
 
 " Running / Building Files
+""""""""""""""""""""""""""""
+
+
+" :make to compile .c and cpp files
+au FileType cpp,c,rs setl mp=make\ %:t:r
+let $CXXFLAGS='-std=c++11'
+
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
 nnoremap <silent> <leader>bP :w<CR>:!clear;python3 %<CR>
 nnoremap <silent> <leader>br :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
