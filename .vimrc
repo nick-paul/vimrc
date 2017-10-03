@@ -271,5 +271,6 @@ if has("unix")
     if s:uname == "Darwin\n"
         " use syetem clipboard
         set clipboard=unnamed
+        nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
     endif
 endif
