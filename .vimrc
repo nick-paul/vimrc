@@ -4,6 +4,12 @@ filetype off                  " required
 let mapleader = ","
 set backspace=2
 
+" Keep vim turds in one place
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+
 " Quickly open/reload vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
@@ -144,8 +150,8 @@ let NERDTreeShowHidden=1                " show hidden files
 " Comfortable Motion
 nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
 nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <S-k> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <S-j> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
+nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
@@ -194,15 +200,10 @@ nnoremap <leader>a <C-w><Left>
 nnoremap <leader>d <C-w><Right>
 nnoremap <leader>w <C-w><Up>
 nnoremap <leader>s <C-w><Down>
-" Move lines uou and down
-"nnoremap <C-Up> :move -2<CR>
-"nnoremap <C-Down> :move +1<CR>
 " move selected lines up one line
 xnoremap <C-Up>  :m-2<CR>gv=gv
-
 " move selected lines down one line
 xnoremap <C-Down> :m'>+<CR>gv=gv
-
 " Tab / untab lines
 vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
@@ -211,8 +212,6 @@ nnoremap <C-a> ggvG$
 inoremap <C-a> <esc>ggvG$
 " Don't copy when deleting
 nnoremap d "_d
-" Yank to system clipboard
-nnoremap y "+y
 " Toggle Line Comments
 vmap <C-_> <leader>c<space>
 nmap <C-_> <leader>c<space>
@@ -234,6 +233,7 @@ nnoremap <silent> <leader>bP :w<CR>:!clear;python3 %<CR>
 nnoremap <silent> <leader>br :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
 nnoremap <leader>bc :w<CR>:make %:t:r<CR>
 nnoremap <silent> <leader>ml :w<CR>:!latexmk -c %<CR>:!gnome-open %:r.pdf<CR><CR>
+nnoremap <silent> <leader>pd :w<CR>:!pandoc % -o %:r.pdf<CR>:!open %:r.pdf<CR><CR>
 
 
 " AUTOCORRECT
@@ -261,4 +261,15 @@ if ! has('gui_running')
         au InsertEnter * set timeoutlen=0
         au InsertLeave * set timeoutlen=1000
     augroup END
+endif
+
+" MAC Settings
+"""""""""""""""""""
+
+if has("unix")
+    let s:uname = system("uname")
+    if s:uname == "Darwin\n"
+        " use syetem clipboard
+        set clipboard=unnamed
+    endif
 endif
