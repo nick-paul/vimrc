@@ -52,7 +52,7 @@ Plugin 'tpope/vim-fugitive'
 " Git line modification ui
 Plugin 'airblade/vim-gitgutter'
 " Syntax checking
-" Plugin 'vim-syntastic/syntastic'
+Plugin 'vim-syntastic/syntastic'
 " NERDTree git ui
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Enhanced C++ highlighting
@@ -130,8 +130,9 @@ set spelllang=en_us         " Spellcheck dictionary
 
 set list listchars=tab:»·,trail:·
 
-
-
+" Spellcheck highlighting
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
 
 
 " PLUGIN SETTINGS
@@ -172,10 +173,17 @@ endfunction
 
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
+function! RemoveWS ()
+    :%s/\s\+$//
+endfunction
+
 " XHTML Autoclose
 let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.launch'
 let g:closetag_shortcut = '>'
 
+" CtrlP
+
+set wildignore+=*.o,*.swp,*.zip,build/*
 
 
 
@@ -200,6 +208,8 @@ nnoremap <leader>a <C-w><Left>
 nnoremap <leader>d <C-w><Right>
 nnoremap <leader>w <C-w><Up>
 nnoremap <leader>s <C-w><Down>
+" Toggle syntastic checking
+nnoremap <leader><leader>s :SyntasticToggleMode<CR>
 " move selected lines up one line
 xnoremap <C-Up>  :m-2<CR>gv=gv
 " move selected lines down one line
@@ -218,7 +228,8 @@ nmap <C-_> <leader>c<space>
 " Cursor Navigation
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
-
+" Macros
+nnoremap Q @q
 
 " Running / Building Files
 """"""""""""""""""""""""""""
@@ -233,7 +244,7 @@ nnoremap <silent> <leader>bP :w<CR>:!clear;python3 %<CR>
 nnoremap <silent> <leader>br :w<CR>:!clear<CR>:make<CR>:!./%:r<CR>
 nnoremap <leader>bc :w<CR>:make %:t:r<CR>
 nnoremap <silent> <leader>ml :w<CR>:!latexmk -c %<CR>:!gnome-open %:r.pdf<CR><CR>
-nnoremap <silent> <leader>pd :w<CR>:!pandoc % -o %:r.pdf<CR>:!open %:r.pdf<CR><CR>
+nnoremap <silent> <leader>pd :w<CR>:!pandoc --variable urlcolor=cyan % -o %:r.pdf<CR>:!open %:r.pdf<CR>
 
 
 " AUTOCORRECT
@@ -274,3 +285,8 @@ if has("unix")
         nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
     endif
 endif
+
+
+" Notes
+" gg=G  Reindent the entire document
+" :%s/\s\+$//e  Remove all trailing whitespace 

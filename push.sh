@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 change=$1
 
 if [ $# -eq 0 ]
