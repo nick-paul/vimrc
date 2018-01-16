@@ -29,6 +29,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'nick-paul/aya-vim'
 " Tree view
 Plugin 'scrooloose/nerdtree'
 " Alignment
@@ -260,8 +261,6 @@ iabbrev feild field
 " ROS
 autocmd BufNewFile,BufRead *.launch set syntax=xml
 autocmd BufNewFile,BufRead *.cfg set syntax=python
-
-
 
 " leave insert mode quickly
 " disables iremap <Esc>...
