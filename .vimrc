@@ -5,15 +5,13 @@ let mapleader = ","
 set backspace=2
 
 " Keep vim turds in one place
-set backupdir=~/.vim/backup//
-set directory=~/.vim/swap//
-set undodir=~/.vim/undo//
-
+"set backupdir=~/.vim/backup//
+"set directory=~/.vim/swap//
+"set undodir=~/.vim/undo//
 
 " Quickly open/reload vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
-
 
 
 " VUNDLE
@@ -21,72 +19,84 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-Plugin 'nick-paul/aya-vim'
+Plug 'nick-paul/aya-vim'
 " Tree view
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 " Alignment
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 " Markdown enable
-Plugin 'plasticboy/vim-markdown'
+"Plug 'plasticboy/vim-markdown'
+Plug 'gabrielelana/vim-markdown'
 " Tab completions
-Plugin 'ervandew/supertab'
+Plug 'ervandew/supertab'
 " Minimap
-Plugin 'severin-lemaignan/vim-minimap'
+Plug 'severin-lemaignan/vim-minimap'
 " sublime text style multiple cursors
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 " View indent guides (:IndentGuides*)
-Plugin 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 " Better status bar
-Plugin 'bling/vim-airline'
+Plug 'bling/vim-airline'
 " Git wrapper
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " Python autocomplete
-" Plugin 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 " Git line modification ui
-Plugin 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 " Syntax checking
-Plugin 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 " NERDTree git ui
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " Enhanced C++ highlighting
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 " airline themes
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline-themes'
 " Distraction free writing
-Plugin 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim'
 " Pyhsics based scrolling
-Plugin 'yuttie/comfortable-motion.vim'
+Plug 'yuttie/comfortable-motion.vim'
 " Colorscheme Management
-Plugin 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
 " Fuzzy file search
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 " Quickly comment selections
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 " Vim LaTeX
-Plugin 'lervag/vimtex'
+Plug 'lervag/vimtex'
 " Autocomplete braces
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 " Autoclose (X)HTML tage
-Plugin 'alvan/vim-closetag'
+Plug 'alvan/vim-closetag'
+" Always show autocomplete
+Plug 'vim-scripts/autocomplpop'
 
 " Other languages:
-Plugin 'JuliaEditorSupport/julia-vim'
-Plugin 'rust-lang/rust.vim'
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'rust-lang/rust.vim'
+
+Plug 'majutsushi/tagbar'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'davidhalter/jedi-vim'
+
+
+call plug#end()
+
+"let g:jedi#force_py_version=3
+
 
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+"call vundle#end()            " required
+"filetype plugin indent on    " required
 
 
 
@@ -128,12 +138,17 @@ scriptencoding utf-8        " invisible chars
 set scrolloff=2             " two lines above and below the cursor when scrolling
 set encoding=utf-8          " Unicode support
 set spelllang=en_us         " Spellcheck dictionary
-
+set whichwrap+=<,>,h,l,[,]  " Wrap when pressing arrow keys"
 set list listchars=tab:»·,trail:·
-
 " Spellcheck highlighting
 hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red
+
+" When the completion menu is shown, <CR> will select the 
+"   current item without inserting a newline
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+:set completeopt=longest,menuone
+
 
 
 " PLUGIN SETTINGS
@@ -157,6 +172,7 @@ nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
+let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " Goyo Toggle 
@@ -231,6 +247,8 @@ nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
 " Macros
 nnoremap Q @q
+" Spell check 
+nnoremap <leader>; ea<C-X>s
 
 " Running / Building Files
 """"""""""""""""""""""""""""
