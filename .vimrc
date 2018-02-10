@@ -14,15 +14,8 @@ nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 
-" VUNDLE
-"""""""""""""
-
-
-" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" VIM-PLUG 
+"""""""""""""""
 
 call plug#begin('~/.vim/plugged')
 
@@ -83,7 +76,6 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
-Plug 'davidhalter/jedi-vim'
 
 
 call plug#end()
@@ -93,10 +85,6 @@ call plug#end()
 
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
-
-" All of your Plugins must be added before the following line
-"call vundle#end()            " required
-"filetype plugin indent on    " required
 
 
 
