@@ -13,6 +13,9 @@ set backspace=2
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
+" Tags
+set tags+=~/.vim/tags/cpp
+
 
 " VUNDLE
 """""""""""""
@@ -33,7 +36,9 @@ Plug 'scrooloose/nerdtree'
 Plug 'godlygeek/tabular'
 " Markdown enable
 "Plug 'plasticboy/vim-markdown'
-Plug 'gabrielelana/vim-markdown'
+"Plug 'gabrielelana/vim-markdown'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 " Tab completions
 Plug 'ervandew/supertab'
 " Minimap
@@ -75,7 +80,7 @@ Plug 'jiangmiao/auto-pairs'
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
 " Always show autocomplete
-Plug 'vim-scripts/autocomplpop'
+" Plug 'vim-scripts/autocomplpop'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -85,6 +90,7 @@ Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'davidhalter/jedi-vim'
 
+Plug 'vim-scripts/OmniCppComplete'
 
 call plug#end()
 
@@ -94,11 +100,23 @@ call plug#end()
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
 
+let g:pandoc#modules#disabled = ["folding"]
+
 " All of your Plugins must be added before the following line
 "call vundle#end()            " required
 "filetype plugin indent on    " required
 
 
+" Omnicomplete cpp
+" OmniCppComplete
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
 " COLOR / THEME
 """""""""""""""""""
@@ -121,6 +139,10 @@ function! ToggleLightDark ()
 endfunction
 
 nnoremap <leader>t :call ToggleLightDark()<CR>
+
+
+" vim-pandoc
+hi! link Conceal Special
 
 
 " BASIC SETTINGS
@@ -155,6 +177,8 @@ hi SpellBad cterm=underline ctermfg=red
 """""""""""""""""
 set laststatus=2                        " vim-airline view
 let ctrlp_show_hidden = 1               " ctrlp: show hidden files
+set wildignore+=*build/*,*.swp
+
 let g:minimap_highlight='Visual'
 
 " NERDTree
@@ -209,9 +233,9 @@ set wildignore+=*.o,*.swp,*.zip,build/*
 
 " run in browser
 ""nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
-nnoremap <leader>ff :silent update<Bar>silent !firefox %:p &<CR><CR><C-l>
-" preview markdown in browser
-nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
+nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
+" preveew markdown in browser
+nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !open %:r.html'<CR><C-l>
 
 " Quick Settings
 nnoremap <C-\> :NERDTreeToggle<CR>
