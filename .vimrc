@@ -17,8 +17,15 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 set tags+=~/.vim/tags/cpp
 
 
-" VIM-PLUG 
-"""""""""""""""
+" VUNDLE
+"""""""""""""
+
+
+" set the runtime path to include Vundle and initialize
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
 call plug#begin('~/.vim/plugged')
 
@@ -49,7 +56,8 @@ Plug 'tpope/vim-fugitive'
 " Git line modification ui
 Plug 'airblade/vim-gitgutter'
 " Syntax checking
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
 " NERDTree git ui
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Enhanced C++ highlighting
@@ -81,6 +89,7 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
+Plug 'davidhalter/jedi-vim'
 
 Plug 'vim-scripts/OmniCppComplete'
 
@@ -91,12 +100,17 @@ call plug#end()
 
 " Disable folding in vim-markdown
 let g:vim_markdown_folding_disabled = 1
-" Disable folding in vim-pandoc
+
 let g:pandoc#modules#disabled = ["folding"]
 
 " All of your Plugins must be added before the following line
 "call vundle#end()            " required
 "filetype plugin indent on    " required
+
+let g:syntastic_python_checkers = ['pylint']
+"let g:ale_linters = {
+"\   'python': ['pylint', 'flake8 --ignore=E303'],
+"\}
 
 " Omnicomplete cpp
 " OmniCppComplete
@@ -206,7 +220,7 @@ endfunction
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
 function! RemoveWS ()
-    :%s/\s\+$//
+    :%s/\s\+$//flake 8 too many blank lines
 endfunction
 
 " XHTML Autoclose
