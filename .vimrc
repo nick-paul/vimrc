@@ -17,7 +17,7 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 set tags+=~/.vim/tags/cpp
 
 
-" VUNDLE
+" VimPlug
 """""""""""""
 
 
@@ -80,8 +80,9 @@ Plug 'lervag/vimtex'
 Plug 'jiangmiao/auto-pairs'
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
-" Always show autocomplete
+" Always show autocompletE
 " Plug 'vim-scripts/autocomplpop'
+Plug 'vim-scripts/taglist.vim'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -176,15 +177,22 @@ hi SpellBad cterm=underline ctermfg=red
 :inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 :set completeopt=longest,menuone
 
+" Searching
+" Ignore case by default, if upper is used, it won't match lower
+set ignorecase
+set smartcase
 
 
 " PLUGIN SETTINGS
 """""""""""""""""
 set laststatus=2                        " vim-airline view
 let ctrlp_show_hidden = 1               " ctrlp: show hidden files
+let ctrlp_switch_buffer = 1             " switch to existing buffer if one is open
 set wildignore+=*build/*,*.swp
 
 let g:minimap_highlight='Visual'
+
+let Tlist_Use_Right_Window   = 1
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
@@ -278,6 +286,7 @@ nnoremap <Down> g<Down>
 nnoremap Q @q
 " Spell check 
 nnoremap <leader>; ea<C-X>s
+nnoremap <leader>/ :TlistOpen<CR>
 
 " Running / Building Files
 """"""""""""""""""""""""""""
@@ -329,6 +338,7 @@ if has("unix")
         " use syetem clipboard
         set clipboard=unnamed
         nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
+        let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
     endif
 endif
 
