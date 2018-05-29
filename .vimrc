@@ -77,7 +77,8 @@ Plug 'scrooloose/nerdcommenter'
 " Vim LaTeX
 Plug 'lervag/vimtex'
 " Autocomplete braces
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
+"Plug 'Raimondi/delimitMate'
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
 " Always show autocompletE
@@ -92,7 +93,7 @@ Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'davidhalter/jedi-vim'
 
-Plug 'vim-scripts/OmniCppComplete'
+"Plug 'vim-scripts/OmniCppComplete'
 
 call plug#end()
 
@@ -194,6 +195,8 @@ let g:minimap_highlight='Visual'
 
 let Tlist_Use_Right_Window   = 1
 
+let g:delimitMate_expand_cr=2
+
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -277,8 +280,8 @@ inoremap <C-a> <esc>ggvG$
 " Don't copy when deleting
 nnoremap d "_d
 " Toggle Line Comments
-vmap <C-_> <leader>c<space>
-nmap <C-_> <leader>c<space>
+vmap <C-k> <leader>c<space>
+nmap <C-k> <leader>c<space>
 " Cursor Navigation
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
