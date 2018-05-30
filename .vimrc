@@ -67,7 +67,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Distraction free writing
 Plug 'junegunn/goyo.vim'
 " Pyhsics based scrolling
-Plug 'yuttie/comfortable-motion.vim'
+
+"Plug 'yuttie/comfortable-motion.vim'
 " Colorscheme Management
 Plug 'flazz/vim-colorschemes'
 " Fuzzy file search
@@ -91,7 +92,7 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 
 "Plug 'vim-scripts/OmniCppComplete'
 
@@ -317,9 +318,13 @@ iabbrev feild field
 " OTHER SETTINGS
 """"""""""""""""""
 
+" Gvim
+" Hide Toolbar
+set guioptions-=T
+
 " ROS
-autocmd BufNewFile,BufRead *.launch set syntax=xml
-autocmd BufNewFile,BufRead *.cfg set syntax=python
+autocmd BufNewFile,BufRead *.launch setf xml
+autocmd BufNewFile,BufRead *.cfg setf python
 
 " leave insert mode quickly
 " disables iremap <Esc>...
