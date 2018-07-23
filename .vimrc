@@ -14,6 +14,7 @@ nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Tags
+set tags=./tags;/
 set tags+=~/.vim/tags/cpp
 
 
@@ -92,6 +93,9 @@ Plug 'rust-lang/rust.vim'
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'davidhalter/jedi-vim'
+
+" Async project searching
+Plug 'dyng/ctrlsf.vim'
 
 "Plug 'vim-scripts/OmniCppComplete'
 
@@ -231,7 +235,7 @@ endfunction
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
 function! RemoveWS ()
-    :%s/\s\+$//flake 8 too many blank lines
+    :%s/\s\+$// "flake 8 too many blank lines
 endfunction
 
 " XHTML Autoclose
@@ -242,7 +246,22 @@ let g:closetag_shortcut = '>'
 
 set wildignore+=*.o,*.swp,*.zip,build/*
 
+" TagBar, show tag in airline
+command! -nargs=0 TagbarToggleStatusline call TagbarToggleStatusline()
+nnoremap <silent> <c-h> :TagbarToggleStatusline<CR>
+function! TagbarToggleStatusline()
+   let tStatusline = '%{exists(''*tagbar#currenttag'')?
+            \tagbar#currenttag(''     [%s] '',''''):''''}'
+   if stridx(&statusline, tStatusline) != -1
+      let &statusline = substitute(&statusline, '\V'.tStatusline, '', '')
+   else
+      let &statusline = substitute(&statusline, '\ze%=%-', tStatusline, '')
+   endif
+endfunction
 
+" CtrlSF
+
+nnoremap <leader>F :CtrlSF 
 
 " KEY MAPPINGS
 """"""""""""""""
@@ -310,7 +329,6 @@ nnoremap <silent> <leader>pd :w<CR>:!pandoc --variable urlcolor=cyan % -o %:r.pd
 " AUTOCORRECT
 """""""""""""""
 iabbrev feild field
-
 
 
 
