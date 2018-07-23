@@ -335,9 +335,13 @@ iabbrev feild field
 " OTHER SETTINGS
 """"""""""""""""""
 
+" Gvim
+" Hide Toolbar
+set guioptions-=T
+
 " ROS
-autocmd BufNewFile,BufRead *.launch set syntax=xml
-autocmd BufNewFile,BufRead *.cfg set syntax=python
+autocmd BufNewFile,BufRead *.launch setf xml
+autocmd BufNewFile,BufRead *.cfg setf python
 
 " leave insert mode quickly
 " disables iremap <Esc>...
