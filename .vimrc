@@ -132,7 +132,7 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 " COLOR / THEME
 """""""""""""""""""
 syntax on
-colorscheme monokai         " :colorscheme <color>
+colorscheme molokai         " :colorscheme <color>
 let g:airline_theme='dark'  " :AirlineTheme <color>
 let is_using_dark_theme = 1 " keep track of current theme
 
