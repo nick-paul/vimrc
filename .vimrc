@@ -132,7 +132,11 @@ let g:pandoc#modules#disabled = ["folding"]
 " COLOR / THEME
 """""""""""""""""""
 syntax on
+<<<<<<< HEAD
 colorscheme Monokai         " :colorscheme <color>
+=======
+colorscheme molokai         " :colorscheme <color>
+>>>>>>> 9bcd66512ef24d8a384f62570a4193674cae31c9
 let g:airline_theme='dark'  " :AirlineTheme <color>
 let is_using_dark_theme = 1 " keep track of current theme
 
@@ -342,9 +346,13 @@ iabbrev feild field
 " OTHER SETTINGS
 """"""""""""""""""
 
+" Gvim
+" Hide Toolbar
+set guioptions-=T
+
 " ROS
-autocmd BufNewFile,BufRead *.launch set syntax=xml
-autocmd BufNewFile,BufRead *.cfg set syntax=python
+autocmd BufNewFile,BufRead *.launch setf xml
+autocmd BufNewFile,BufRead *.cfg setf python
 
 " leave insert mode quickly
 " disables iremap <Esc>...
