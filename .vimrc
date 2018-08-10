@@ -214,9 +214,9 @@ let NERDTreeShowHidden=1                " show hidden files
 if has('nvim')
     nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
     nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
+    nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
+    nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 endif
-nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
-nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 
 
 " Syntastic
@@ -343,8 +343,10 @@ iabbrev feild field
 """"""""""""""""""
 
 " Gvim
-" Hide Toolbar
-set guioptions-=T
+if has('gui_running')
+    " Hide Toolbar
+    set guioptions-=T
+endif
 
 " ROS
 autocmd BufNewFile,BufRead *.launch setf xml
