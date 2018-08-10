@@ -132,11 +132,7 @@ let g:pandoc#modules#disabled = ["folding"]
 " COLOR / THEME
 """""""""""""""""""
 syntax on
-<<<<<<< HEAD
 colorscheme Monokai         " :colorscheme <color>
-=======
-colorscheme molokai         " :colorscheme <color>
->>>>>>> 9bcd66512ef24d8a384f62570a4193674cae31c9
 let g:airline_theme='dark'  " :AirlineTheme <color>
 let is_using_dark_theme = 1 " keep track of current theme
 
