@@ -100,6 +100,9 @@ if has('nvim')
         \ 'do': 'bash install.sh',
         \ }
 
+     "Clang complete
+    "Plug 'zchee/deoplete-clang'
+
     " Syntax checking
     Plug 'w0rp/ale'
 else
@@ -313,6 +316,9 @@ nnoremap Q @q
 nnoremap <leader>; ea<C-X>s
 " Open TagList
 nnoremap <leader>/ :TlistOpen<CR>
+" Quick tab switching
+nnoremap << gT
+nnoremap >> gt
 
 
 " Running / Building Files
