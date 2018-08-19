@@ -100,8 +100,8 @@ if has('nvim')
         \ 'do': 'bash install.sh',
         \ }
 
-     "Clang complete
-    "Plug 'zchee/deoplete-clang'
+    Plug 'zchee/deoplete-clang'
+    
 
     " Syntax checking
     Plug 'w0rp/ale'
@@ -112,12 +112,20 @@ else
     "Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
 
+let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
+
 if has('nvim')
+    if has('unix')
+        let g:deoplete#enable_at_startup = 1
+        let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
+        let g:deoplete#sources#clang#clang_header = '/usr/include/clang/3.8.0/include/'
+    endif
+    
+
     let g:LanguageClient_serverCommands = {
         \ 'cpp': ['yourCQueryDirectory/build/release/bin/cquery', 
         \ '--log-file=/tmp/cq.log', 
@@ -316,9 +324,6 @@ nnoremap Q @q
 nnoremap <leader>; ea<C-X>s
 " Open TagList
 nnoremap <leader>/ :TlistOpen<CR>
-" Quick tab switching
-nnoremap << gT
-nnoremap >> gt
 
 
 " Running / Building Files
