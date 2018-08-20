@@ -101,10 +101,13 @@ if has('nvim')
         \ }
 
     Plug 'zchee/deoplete-clang'
-    
+    Plug 'zchee/deoplete-jedi'
 
     " Syntax checking
     Plug 'w0rp/ale'
+
+    " Only use clang
+    let g:ale_linters = {'cpp': ['clang', 'gcc', 'clangtidy']}
 else
     Plug 'vim-syntastic/syntastic'
     "Plug 'Shougo/deoplete.nvim'
@@ -126,11 +129,6 @@ if has('nvim')
     endif
     
 
-    let g:LanguageClient_serverCommands = {
-        \ 'cpp': ['yourCQueryDirectory/build/release/bin/cquery', 
-        \ '--log-file=/tmp/cq.log', 
-        \ '--init={"cacheDirectory":"/var/cquery/"}']
-\ }
 endif
 
 
