@@ -11,6 +11,9 @@ if has('nvim')
     if s:uname == "Darwin\n"
         let g:python3_host_prog = '/Users/npaul/anaconda/bin/python'
     endif
+
+    " escape terminal mode
+    tnoremap <Esc> <C-\><C-n>
 end
 
 
@@ -33,9 +36,9 @@ Plug 'nick-paul/aya-vim'
 Plug 'scrooloose/nerdtree'
 " Alignment
 Plug 'godlygeek/tabular'
+" JavaScript
+Plug 'pangloss/vim-javascript'
 " Markdown enable
-"Plug 'plasticboy/vim-markdown'
-"Plug 'gabrielelana/vim-markdown'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 " Tab completions
@@ -73,12 +76,9 @@ Plug 'scrooloose/nerdcommenter'
 " Vim LaTeX
 Plug 'lervag/vimtex'
 " Autocomplete braces
-"Plug 'jiangmiao/auto-pairs'
-"Plug 'Raimondi/delimitMate'
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
-" Always show autocompletE
-" Plug 'vim-scripts/autocomplpop'
+
 Plug 'vim-scripts/taglist.vim'
 
 " Other languages:
@@ -87,21 +87,35 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
 
 
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+
+
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': 'bash install.sh',
         \ }
 
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'zchee/deoplete-clang'
     Plug 'zchee/deoplete-jedi'
+    Plug 'euclio/vim-markdown-composer'
 
     " Syntax checking
     Plug 'w0rp/ale'
@@ -110,10 +124,23 @@ if has('nvim')
     let g:ale_linters = {'cpp': ['clang', 'gcc', 'clangtidy']}
 else
     Plug 'vim-syntastic/syntastic'
-    "Plug 'Shougo/deoplete.nvim'
-    "Plug 'roxma/nvim-yarp'
-    "Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+
+" LanguageClient
+call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
+call mkdir(glob('~/') . '.var/neovim/nodejs', 'p')
+let g:LanguageClient_serverCommands = {
+\ 'c': ['cquery',
+\ '--log-file=/tmp/cq.log',
+\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+\ 'cpp': ['cquery',
+\ '--log-file=/tmp/cq.log',
+\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+\ 'python': [glob('~/.var/neovim/pyenv/versions/neovim3/bin/pyls')],
+\ 'java': ['jdtls'],
+\ 'javascript': [glob('~/.var/neovim/nodejs/node_modules/.bin/javascript-typescript-stdio')],
+\ }
 
 
 call plug#end()
@@ -127,15 +154,13 @@ if has('nvim')
         let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
         let g:deoplete#sources#clang#clang_header = '/usr/include/clang/3.8.0/include/'
     endif
-    
-
 endif
 
-
-
 " Disable folding in vim-markdown
-let g:vim_markdown_folding_disabled = 1
 let g:pandoc#modules#disabled = ["folding"]
+
+" vim-pandoc
+hi! link Conceal Special
 
 
 " COLOR / THEME
@@ -143,9 +168,12 @@ let g:pandoc#modules#disabled = ["folding"]
 syntax on
 colorscheme Monokai         " :colorscheme <color>
 let g:airline_theme='dark'  " :AirlineTheme <color>
-let is_using_dark_theme = 1 " keep track of current theme
+
+
 
 " Toggle light and dark theme
+let is_using_dark_theme = 1 " keep track of current theme
+
 function! ToggleLightDark ()
     if g:is_using_dark_theme == 1
         :colorscheme soda
@@ -161,8 +189,6 @@ endfunction
 nnoremap <leader>t :call ToggleLightDark()<CR>
 
 
-" vim-pandoc
-hi! link Conceal Special
 
 
 " BASIC SETTINGS
@@ -203,6 +229,8 @@ set laststatus=2                        " vim-airline view
 let ctrlp_show_hidden = 1               " ctrlp: show hidden files
 let ctrlp_switch_buffer = 1             " switch to existing buffer if one is open
 set wildignore+=*build/*,*.swp
+set wildignore+=node_modules
+set wildignore+=\..*
 
 let g:minimap_highlight='Visual'
 
@@ -210,7 +238,6 @@ let Tlist_Use_Right_Window   = 1
 
 let g:delimitMate_expand_cr=2
 
-let g:syntastic_python_checkers = ['pylint']
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
@@ -230,12 +257,13 @@ endif
 
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+let g:syntastic_python_checkers = ['pylint']
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
-" Goyo Toggle 
+" Goyo Toggle
 let is_using_goyo = 0
 function! ToggleGoyoView ()
     if g:is_using_goyo == 1
@@ -273,8 +301,10 @@ function! TagbarToggleStatusline()
    endif
 endfunction
 
+nnoremap ,T :TagbarOpen<CR>
+
 " CtrlSF
-nnoremap <leader>F :CtrlSF 
+nnoremap <leader>F :CtrlSF
 let g:ctrlsf_mapping = {"quit" : "Z"}
 
 
@@ -282,8 +312,7 @@ let g:ctrlsf_mapping = {"quit" : "Z"}
 """"""""""""""""
 
 " run in browser
-""nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
-nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
+nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
 " preveew markdown in browser
 nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !open %:r.html'<CR><C-l>
 
@@ -322,7 +351,9 @@ nnoremap Q @q
 nnoremap <leader>; ea<C-X>s
 " Open TagList
 nnoremap <leader>/ :TlistOpen<CR>
-
+" quick tab switching
+nnoremap << gT
+nnoremap >> gt
 
 " Running / Building Files
 """"""""""""""""""""""""""""
@@ -330,6 +361,7 @@ nnoremap <leader>/ :TlistOpen<CR>
 " :make to compile .c and cpp files
 au FileType cpp,c,rs setl mp=make\ %:t:r
 let $CXXFLAGS='-std=c++11'
+
 
 " python
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
@@ -382,6 +414,8 @@ if has("unix")
         set clipboard=unnamed
         nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
         let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+
+nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
     endif
 endif
 
