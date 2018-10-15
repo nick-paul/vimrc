@@ -360,7 +360,7 @@ nnoremap >> gt
 
 " :make to compile .c and cpp files
 au FileType cpp,c,rs setl mp=make\ %:t:r
-let $CXXFLAGS='-std=c++11'
+let $CXXFLAGS='-std=c++14'
 
 
 " python

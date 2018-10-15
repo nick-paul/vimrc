@@ -9,7 +9,7 @@ then
 fi
 
 rm .vimrc
-cp ~/.vimrc .
+cp ~/.config/nvim/init.vim .vimrc
 
 git add --all
 git commit -m "$change"
