@@ -5,15 +5,12 @@ let mapleader = ","
 set backspace=2
 
 
-" Neovim Settings
+" Neovim Init Settings
 if has('nvim')
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
         let g:python3_host_prog = '/Users/npaul/anaconda/bin/python'
     endif
-
-    " escape terminal mode
-    tnoremap <Esc> <C-\><C-n>
 end
 
 
@@ -36,9 +33,7 @@ Plug 'nick-paul/aya-vim'
 Plug 'scrooloose/nerdtree'
 " Alignment
 Plug 'godlygeek/tabular'
-" JavaScript
-Plug 'pangloss/vim-javascript'
-" Markdown enable
+" Markdown
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 " Tab completions
@@ -53,8 +48,6 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'bling/vim-airline'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
-" Python autocomplete
-"Plug 'davidhalter/jedi-vim'
 " Git line modification ui
 Plug 'airblade/vim-gitgutter'
 " NERDTree git ui
@@ -75,11 +68,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdcommenter'
 " Vim LaTeX
 Plug 'lervag/vimtex'
-" Autocomplete braces
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
-
-Plug 'vim-scripts/taglist.vim'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -87,60 +77,43 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 Plug 'tacahiroy/ctrlp-funky'
-"Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
 
 
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-
-
 if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': 'bash install.sh',
         \ }
 
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'zchee/deoplete-clang'
+    call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
+
+    let g:LanguageClient_serverCommands = {
+    \ 'c': ['cquery',
+    \ '--log-file=/tmp/cq.log',
+    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+    \ 'cpp': ['cquery',
+    \ '--log-file=/tmp/cq.log',
+    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}']
+    \ }
+
     Plug 'zchee/deoplete-jedi'
-    Plug 'euclio/vim-markdown-composer'
 
     " Syntax checking
-    Plug 'w0rp/ale'
+    " Plug 'w0rp/ale'
 
     " Only use clang
     let g:ale_linters = {'cpp': ['clang', 'gcc', 'clangtidy']}
 else
     Plug 'vim-syntastic/syntastic'
+    "Plug 'Shougo/deoplete.nvim'
+    "Plug 'roxma/nvim-yarp'
+    "Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
-
-" LanguageClient
-call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
-call mkdir(glob('~/') . '.var/neovim/nodejs', 'p')
-let g:LanguageClient_serverCommands = {
-\ 'c': ['cquery',
-\ '--log-file=/tmp/cq.log',
-\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-\ 'cpp': ['cquery',
-\ '--log-file=/tmp/cq.log',
-\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-\ 'python': [glob('~/.var/neovim/pyenv/versions/neovim3/bin/pyls')],
-\ 'java': ['jdtls'],
-\ 'javascript': [glob('~/.var/neovim/nodejs/node_modules/.bin/javascript-typescript-stdio')],
-\ }
 
 
 call plug#end()
@@ -156,11 +129,6 @@ if has('nvim')
     endif
 endif
 
-" Disable folding in vim-markdown
-let g:pandoc#modules#disabled = ["folding"]
-
-" vim-pandoc
-hi! link Conceal Special
 
 
 " COLOR / THEME
@@ -168,26 +136,6 @@ hi! link Conceal Special
 syntax on
 colorscheme Monokai         " :colorscheme <color>
 let g:airline_theme='dark'  " :AirlineTheme <color>
-
-
-
-" Toggle light and dark theme
-let is_using_dark_theme = 1 " keep track of current theme
-
-function! ToggleLightDark ()
-    if g:is_using_dark_theme == 1
-        :colorscheme soda
-        :AirlineTheme papercolor
-        let g:is_using_dark_theme = 0
-    else
-        :colorscheme monokai
-        :AirlineTheme dark
-        let g:is_using_dark_theme = 1
-    endif
-endfunction
-
-nnoremap <leader>t :call ToggleLightDark()<CR>
-
 
 
 
@@ -225,19 +173,31 @@ set smartcase
 
 " PLUGIN SETTINGS
 """""""""""""""""
+
+" CtrlP
 set laststatus=2                        " vim-airline view
 let ctrlp_show_hidden = 1               " ctrlp: show hidden files
 let ctrlp_switch_buffer = 1             " switch to existing buffer if one is open
-set wildignore+=*build/*,*.swp
-set wildignore+=node_modules
-set wildignore+=\..*
+set wildignore+=*build/*,*.swp*.o,*.zip
 
+" CtrlP Funky
+nnoremap <C-r> :CtrlPFunky<CR>
+
+" Minimap
 let g:minimap_highlight='Visual'
+nnoremap <leader>m :MinimapToggle<CR>
 
-let Tlist_Use_Right_Window   = 1
+" Markdown
+" Disable folding in vim-markdown
+let g:vim_markdown_folding_disabled = 1
+let g:pandoc#modules#disabled = ["folding"]
 
-let g:delimitMate_expand_cr=2
+" Syntastic
+let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 
+" vim-pandoc
+hi! link Conceal Special
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
@@ -254,39 +214,18 @@ if has('nvim')
     nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
 endif
 
-
-" Syntastic
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_python_checkers = ['pylint']
-
 " SuperTab
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-
-" Goyo Toggle
-let is_using_goyo = 0
-function! ToggleGoyoView ()
-    if g:is_using_goyo == 1
-        :Goyo!
-        let g:is_using_goyo = 0
-    else
-        :Goyo 80%
-        let g:is_using_goyo = 1
-    endif
-endfunction
-
-nnoremap <leader>g :call ToggleGoyoView()<CR>
-
-function! RemoveWS ()
-    :%s/\s\+$// "flake 8 too many blank lines
-endfunction
 
 " XHTML Autoclose
 let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.launch'
 let g:closetag_shortcut = '>'
 
-" CtrlP
-set wildignore+=*.o,*.swp,*.zip,build/*
+
+" CtrlSF
+nnoremap <leader>F :CtrlSF 
+let g:ctrlsf_mapping = {"quit" : "Z"}
 
 " TagBar, show tag in airline
 command! -nargs=0 TagbarToggleStatusline call TagbarToggleStatusline()
@@ -301,24 +240,19 @@ function! TagbarToggleStatusline()
    endif
 endfunction
 
-nnoremap ,T :TagbarOpen<CR>
-
-" CtrlSF
-nnoremap <leader>F :CtrlSF
-let g:ctrlsf_mapping = {"quit" : "Z"}
 
 
 " KEY MAPPINGS
 """"""""""""""""
 
 " run in browser
-nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+""nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
 " preveew markdown in browser
 nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !open %:r.html'<CR><C-l>
 
 " Quick Settings
 nnoremap <C-\> :NERDTreeToggle<CR>
-nnoremap <leader>m :MinimapToggle<CR>
 nnoremap ; :
 inoremap <leader><leader> <Esc>
 nnoremap <leader>n :set number!<CR>
@@ -349,11 +283,10 @@ nnoremap <Down> g<Down>
 nnoremap Q @q
 " Spell check
 nnoremap <leader>; ea<C-X>s
-" Open TagList
-nnoremap <leader>/ :TlistOpen<CR>
-" quick tab switching
+" Quick Tab Movements
 nnoremap << gT
 nnoremap >> gt
+
 
 " Running / Building Files
 """"""""""""""""""""""""""""
@@ -361,7 +294,6 @@ nnoremap >> gt
 " :make to compile .c and cpp files
 au FileType cpp,c,rs setl mp=make\ %:t:r
 let $CXXFLAGS='-std=c++14'
-
 
 " python
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
@@ -414,11 +346,63 @@ if has("unix")
         set clipboard=unnamed
         nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
         let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-
-nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
     endif
 endif
 
+
+" Custom Functions
+""""""""""""""""""""""
+
+" Goyo Toggle
+let is_using_goyo = 0
+function! ToggleGoyoView ()
+    if g:is_using_goyo == 1
+        :Goyo!
+        let g:is_using_goyo = 0
+    else
+        :Goyo 80%
+        let g:is_using_goyo = 1
+    endif
+endfunction
+
+nnoremap <leader>g :call ToggleGoyoView()<CR>
+
+
+function! RemoveWS ()
+    :%s/\s\+$//
+endfunction
+
+
+" Toggle light and dark theme
+let is_using_dark_theme = 1
+function! ToggleLightDark ()
+    if g:is_using_dark_theme == 1
+        :colorscheme soda
+        :AirlineTheme papercolor
+        let g:is_using_dark_theme = 0
+    else
+        :colorscheme monokai
+        :AirlineTheme dark
+        let g:is_using_dark_theme = 1
+    endif
+endfunction
+
+nnoremap <leader><C-t> :call ToggleLightDark()<CR>
+
+
+" Tagbar Toggle
+let is_tagbar_open = 0
+function! ToggleTagbar ()
+    if g:is_tagbar_open == 1
+        :TagbarClose
+        let g:is_tagbar_open = 0
+    else
+        :TagbarOpen
+        let g:is_tagbar_open = 1
+    endif
+endfunction
+
+nnoremap <leader>t :call ToggleTagbar()<CR>
 
 " Notes
 " gg=G  Reindent the entire document
