@@ -5,6 +5,7 @@ let mapleader = ","
 set backspace=2
 
 
+
 " Neovim Init Settings
 if has('nvim')
     let s:uname = system("uname")
@@ -170,6 +171,13 @@ hi SpellBad cterm=underline ctermfg=red
 set ignorecase
 set smartcase
 
+" Persistant Undo
+set undofile                " Save undos after file closes
+call mkdir(glob('~/') . '.var/neovim/undofiles', 'p')
+set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
+
 
 " PLUGIN SETTINGS
 """""""""""""""""
@@ -324,6 +332,7 @@ endif
 " ROS
 autocmd BufNewFile,BufRead *.launch setf xml
 autocmd BufNewFile,BufRead *.cfg setf python
+autocmd BufRead,BufNewFile *.cpp,*.hpp setlocal signcolumn=yes
 
 " leave insert mode quickly
 " disables iremap <Esc>...
@@ -346,6 +355,9 @@ if has("unix")
         set clipboard=unnamed
         nnoremap <silent> <leader>ml :w<CR>:!pdflatex -halt-on-error -output-directory %:p:h %<CR>:!open %:r.pdf<CR>
         let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+
+
+        au BufEnter *.cpp set makeprg=c++\ --std=c++14\ -g\ %\ -o\ %< 
     endif
 endif
 
