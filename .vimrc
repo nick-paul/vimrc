@@ -11,6 +11,8 @@ if has('nvim')
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
         let g:python3_host_prog = '/Users/npaul/anaconda/bin/python'
+    else
+        let g:python3_host_prog = '/home/nick/anaconda3/bin/python'
     endif
 end
 
@@ -104,11 +106,6 @@ if has('nvim')
 
     Plug 'zchee/deoplete-jedi'
 
-    " Syntax checking
-    " Plug 'w0rp/ale'
-
-    " Only use clang
-    let g:ale_linters = {'cpp': ['clang', 'gcc', 'clangtidy']}
 else
     Plug 'vim-syntastic/syntastic'
     "Plug 'Shougo/deoplete.nvim'
@@ -116,6 +113,9 @@ else
     "Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+" Icon support
+" Must be last
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
