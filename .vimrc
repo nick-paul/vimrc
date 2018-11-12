@@ -73,6 +73,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'lervag/vimtex'
 " Autoclose (X)HTML tage
 Plug 'alvan/vim-closetag'
+" Rainbow parens
+Plug 'kien/rainbow_parentheses.vim'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -206,6 +208,13 @@ let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 
 " vim-pandoc
 hi! link Conceal Special
+
+" Rainbow Parens
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
