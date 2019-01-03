@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Setup Vim and NeoVim
 
 # Standard Vim
@@ -19,9 +21,13 @@ if [ ! -e "${HOME}/.local/share/nvim/site/autoload/plug.vim" ]; then
 fi
 
 
+
 PYENV="${HOME}/.pyenv"
 
 if [ -d "${PYENV}" ]; then
+
+    # Temp add pyenv to path
+    PATH="${HOME}/.pyenv/bin:${PATH}"
 
     if [ ! -d "${PYENV}/versions/2.7.15" ]; then
         pyenv install 2.7.15
@@ -43,7 +49,7 @@ if [ -d "${PYENV}" ]; then
     fi
 
     export PATH="/home/nick/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
+    eval "$(pyenv init - --no-rehash)"
     eval "$(pyenv virtualenv-init -)"
 
     pyenv activate neovim2
@@ -55,3 +61,9 @@ if [ -d "${PYENV}" ]; then
 else
     echo "Please install pyenv"
 fi
+
+# install plugins
+nvim --headless +PlugInstall +UpdateRemotePlugins +q
+
+
+
