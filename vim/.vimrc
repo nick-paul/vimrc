@@ -12,7 +12,8 @@ if has('nvim')
     if s:uname == "Darwin\n"
         let g:python3_host_prog = '/Users/npaul/anaconda/bin/python'
     else
-        let g:python3_host_prog = '/home/nick/anaconda3/bin/python'
+        let g:python_host_prog  = glob('~/.pyenv/versions/neovim2/bin/python')
+        let g:python3_host_prog = glob('~/.pyenv/versions/neovim3/bin/python')
     endif
 end
 
@@ -75,6 +76,8 @@ Plug 'lervag/vimtex'
 Plug 'alvan/vim-closetag'
 " Rainbow parens
 Plug 'kien/rainbow_parentheses.vim'
+" Inactive buffer fading
+Plug 'TaDaa/vimade'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -86,6 +89,8 @@ Plug 'davidhalter/jedi-vim'
 
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
+" Edit fish files
+Plug 'dag/vim-fish'
 
 
 if has('nvim')
@@ -163,7 +168,7 @@ set list listchars=tab:»·,trail:·
 hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red
 
-" When the completion menu is shown, <CR> will select the 
+" When the completion menu is shown, <CR> will select the
 "   current item without inserting a newline
 :inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 :set completeopt=longest,menuone
@@ -241,7 +246,7 @@ let g:closetag_shortcut = '>'
 
 
 " CtrlSF
-nnoremap <leader>F :CtrlSF 
+nnoremap <leader>F :CtrlSF
 let g:ctrlsf_mapping = {"quit" : "Z"}
 
 " TagBar, show tag in airline
@@ -366,7 +371,7 @@ if has("unix")
         let g:clang_library_path='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 
-        au BufEnter *.cpp set makeprg=c++\ --std=c++14\ -g\ %\ -o\ %< 
+        au BufEnter *.cpp set makeprg=c++\ --std=c++14\ -g\ %\ -o\ %<
     endif
 endif
 
@@ -389,9 +394,11 @@ endfunction
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
 
-function! RemoveWS ()
+function! WSRemove ()
     :%s/\s\+$//
 endfunction
+
+command! WSRemove :call WSRemove()
 
 
 " Toggle light and dark theme
@@ -402,7 +409,7 @@ function! ToggleLightDark ()
         :AirlineTheme papercolor
         let g:is_using_dark_theme = 0
     else
-        :colorscheme monokai
+        :colorscheme Monokai
         :AirlineTheme dark
         let g:is_using_dark_theme = 1
     endif
@@ -427,4 +434,4 @@ nnoremap <leader>t :call ToggleTagbar()<CR>
 
 " Notes
 " gg=G  Reindent the entire document
-" :%s/\s\+$//e  Remove all trailing whitespace 
+" :%s/\s\+$//e  Remove all trailing whitespace

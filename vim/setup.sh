@@ -21,7 +21,6 @@ if [ ! -e "${HOME}/.local/share/nvim/site/autoload/plug.vim" ]; then
 fi
 
 
-
 PYENV="${HOME}/.pyenv"
 
 if [ -d "${PYENV}" ]; then
@@ -54,16 +53,18 @@ if [ -d "${PYENV}" ]; then
 
     pyenv activate neovim2
     pip install neovim
+    pyenv which python
 
     pyenv activate neovim3
     pip3 install neovim
+    pyenv which python
 
 else
     echo "Please install pyenv"
 fi
 
 # install plugins
-nvim --headless +PlugInstall +UpdateRemotePlugins +q
+#nvim --headless +PlugInstall +UpdateRemotePlugins +q
 
 
 

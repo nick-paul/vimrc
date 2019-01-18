@@ -7,25 +7,19 @@ if [ "$(id -u)" == "0" ] && [ -z "$SUDO_USER" ]; then
   exit -1
 fi
 
-# ensure root permissions
-if [ "$(id -u)" != "0" ]; then
-  exec sudo "$0" "$@"
-fi
-
-
 # enable all deb-src in sources.list
-sed -i '/^#\sdeb-src /s/^#//' "/etc/apt/sources.list"
+sudo sed -i '/^#\sdeb-src /s/^#//' "/etc/apt/sources.list"
 
-apt update
-apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 
 if ! command -v nvim; then
-  add-apt-repository ppa:neovim-ppa/stable
-  apt update
-  apt install -y neovim
+  sudo add-apt-repository ppa:neovim-ppa/stable
+  sudo apt update
+  sudo apt install -y neovim
 fi
 
-apt install -y curl
+sudo apt install -y curl
 
 if ! command -v npm; then
   curl -sL https://deb.nodesource.com/setup_10.x | bash -
@@ -34,17 +28,17 @@ fi
 if ! command -v openvpn; then
   wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
   echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list
-  apt update
-  apt install -y openvpn
+  sudo apt update
+  sudo apt install -y openvpn
 fi
 
 if ! command -v fish; then
-  add-apt-repository ppa:fish-shell/release-2
-  apt update
-  apt install -y fish
+  sudo add-apt-repository ppa:fish-shell/release-2
+  sudo apt update
+  sudo apt install -y fish
 fi
 
-apt install -y \
+sudo apt install -y \
   vim \
   git \
   nodejs \
@@ -69,9 +63,9 @@ apt install -y \
   libncurses5-dev \
   pkg-config
 
-apt build-dep -y python python3
+sudo apt build-dep -y python python3
 
-sudo -u $SUDO_USER bash << EOF
+sudo -u $USER bash << EOF
 
   set -e
 
@@ -103,9 +97,12 @@ sudo -u $SUDO_USER bash << EOF
 
 EOF
 
-bash font/install-nerd.sh
-bash pyenv/install.sh
+# Install fzf
+if [ ! -d "${HOME}/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+fi
 
+#bash font/install-nerd.sh
+#bash pyenv/install.sh
 bash vim/setup.sh
-
-cp font/square.ttf ~/Desktop/
