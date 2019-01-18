@@ -61,7 +61,8 @@ sudo apt install -y \
   libgdbm-dev \
   libssl-dev \
   libncurses5-dev \
-  pkg-config
+  pkg-config \
+  exuberant-ctags
 
 sudo apt build-dep -y python python3
 
