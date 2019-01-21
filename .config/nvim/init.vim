@@ -66,8 +66,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'yuttie/comfortable-motion.vim'
 " Colorscheme Management
 Plug 'flazz/vim-colorschemes'
-" Fuzzy file search
-Plug 'ctrlpvim/ctrlp.vim'
 " Quickly comment selections
 Plug 'scrooloose/nerdcommenter'
 " Vim LaTeX
@@ -84,13 +82,15 @@ Plug 'JuliaEditorSupport/julia-vim'
 Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
-Plug 'tacahiroy/ctrlp-funky'
-Plug 'davidhalter/jedi-vim'
+
+
+"Plug 'davidhalter/jedi-vim'
 
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
 " Edit fish files
 Plug 'dag/vim-fish'
+
 
 
 if has('nvim')
@@ -108,16 +108,30 @@ if has('nvim')
     \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
     \ 'cpp': ['cquery',
     \ '--log-file=/tmp/cq.log',
-    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}']
+    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+    \ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')]
     \ }
 
-    Plug 'zchee/deoplete-jedi'
+    "Plug 'zchee/deoplete-jedi'
+
+    " fzf
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    nnoremap <C-p> :FZF <CR>
+
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 else
     Plug 'vim-syntastic/syntastic'
     "Plug 'Shougo/deoplete.nvim'
     "Plug 'roxma/nvim-yarp'
     "Plug 'roxma/vim-hug-neovim-rpc'
+
+    " Fuzzy file search
+    Plug 'ctrlpvim/ctrlp.vim'
+
 endif
 
 " Icon support
@@ -195,8 +209,8 @@ let ctrlp_show_hidden = 1               " ctrlp: show hidden files
 let ctrlp_switch_buffer = 1             " switch to existing buffer if one is open
 set wildignore+=*build/*,*.swp*.o,*.zip
 
-" CtrlP Funky
-nnoremap <C-r> :CtrlPFunky<CR>
+" Tagbar quick search
+nnoremap \ :TagbarOpenAutoClose <CR> /
 
 " Minimap
 let g:minimap_highlight='Visual'
