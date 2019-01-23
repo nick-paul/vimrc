@@ -14,8 +14,6 @@ fi
 mkdir -p "${HOME}/.local/share/fonts/"
 unzip -o -d "${HOME}/.local/share/fonts/" "${CURDIR}/.cache/UbuntuMono.zip"
 mkdir -p "${HOME}/.config/fontconfig/conf.d/"
-echo $(pwd)
-ls
 cp "font/nerd.conf" "${HOME}/.config/fontconfig/conf.d/10-ubuntu-mono-nerd-font.conf"
 
 # Build font cache

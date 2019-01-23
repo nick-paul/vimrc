@@ -107,3 +107,6 @@ fi
 #bash font/install-nerd.sh
 #bash pyenv/install.sh
 bash vim/setup.sh
+
+wget https://github.com/tonsky/FiraCode/tree/master/distr/ttf/FiraCode-Regular.ttf
+mv FiraCode-Regular.ttf ~/Desktop
