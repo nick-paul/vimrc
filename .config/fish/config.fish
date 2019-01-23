@@ -10,8 +10,19 @@ status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and source (pyenv virtualenv-init -|psub)
 
 # blender
-set PATH /home/npaul/blender-2.79b-linux-glibc219-x86_64 $PATH
+set BLENDER_DIR /home/npaul/blender-2.79b-linux-glibc219-x86_64
+if test -d $BLENDER_DIR
+    set PATH $JULIA_DIR $PATH
+end
+
 # julia
-set PATH /opt/julia-1.0.3/bin $PATH
+set JULIA_DIR /opt/julia-1.0.3/bin
+if test -d $JULIA_DIR
+    set PATH $JULIA_DIR $PATH
+end
+
 # cling
-set PATH /opt/cling/bin $PATH
+set CLING_DIR /opt/cling/bin
+if test -d $CLING_DIR
+    set PATH CLING_DIR $PATH
+end
