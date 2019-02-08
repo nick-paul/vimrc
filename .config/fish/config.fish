@@ -16,20 +16,14 @@ end
 
 # Various path variables
 
-# blender
-if test -d /home/npaul/blender-2.79b-linux-glibc219-x86_64
-    set PATH /home/npaul/blender-2.79b-linux-glibc219-x86_64 $PATH
-end
+set ADD_TO_PATH \
+    ~/blender-2.79b-linux-glibc219-x86_64 \
+    /opt/julia-1.0.3 \
+    /opt/cling \
+    ~/.local/kitty.app/bin
 
-# julia
-if test -d /opt/julia-1.0.3
-    set PATH /opt/julia-1.0.3/bin $PATH
+for p in "$ADD_TO_PATH"
+    if test -d "$p"
+        set PATH "$p" $PATH
+    end
 end
-
-# cling
-if test -d /opt/cling
-    set PATH /opt/cling/bin $PATH
-end
-
-# kitty
-set PATH /home/npaul/.local/kitty.app/bin $PATH
