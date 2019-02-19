@@ -18,11 +18,11 @@ end
 
 set ADD_TO_PATH \
     ~/blender-2.79b-linux-glibc219-x86_64 \
-    /opt/julia-1.0.3 \
-    /opt/cling \
+    /opt/julia-1.0.3/bin \
+    /opt/cling/bin \
     ~/.local/kitty.app/bin
 
-for p in "$ADD_TO_PATH"
+for p in $ADD_TO_PATH
     if test -d "$p"
         set PATH "$p" $PATH
     end
