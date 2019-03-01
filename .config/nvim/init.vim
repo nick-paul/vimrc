@@ -118,6 +118,13 @@ if has('nvim')
     Plug 'junegunn/fzf.vim'
     nnoremap <C-p> :FZF <CR>
 
+    " undo files
+    call mkdir(glob('~/') . '.var/neovim/undofiles', 'p')
+    set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
+
+    " Enable sign column for cpp files
+    autocmd BufRead,BufNewFile *.cpp,*.hpp setlocal signcolumn=yes
+
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
@@ -193,8 +200,6 @@ set smartcase
 
 " Persistant Undo
 set undofile                " Save undos after file closes
-call mkdir(glob('~/') . '.var/neovim/undofiles', 'p')
-set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 
@@ -359,7 +364,6 @@ endif
 " ROS
 autocmd BufNewFile,BufRead *.launch setf xml
 autocmd BufNewFile,BufRead *.cfg setf python
-autocmd BufRead,BufNewFile *.cpp,*.hpp setlocal signcolumn=yes
 
 " leave insert mode quickly
 " disables iremap <Esc>...
