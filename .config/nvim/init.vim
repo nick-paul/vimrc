@@ -74,8 +74,6 @@ Plug 'lervag/vimtex'
 Plug 'alvan/vim-closetag'
 " Rainbow parens
 Plug 'kien/rainbow_parentheses.vim'
-" Inactive buffer fading
-Plug 'TaDaa/vimade'
 
 " Other languages:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -112,7 +110,8 @@ if has('nvim')
     \ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')]
     \ }
 
-    "Plug 'zchee/deoplete-jedi'
+    " Inactive buffer fading
+    Plug 'TaDaa/vimade'
 
     " fzf
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
