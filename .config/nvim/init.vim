@@ -92,6 +92,7 @@ Plug 'dag/vim-fish'
 
 
 if has('nvim')
+    Plug 'w0rp/ale'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
@@ -123,7 +124,7 @@ if has('nvim')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
     " Enable sign column for cpp files
-    autocmd BufRead,BufNewFile *.cpp,*.hpp setlocal signcolumn=yes
+    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.py setlocal signcolumn=yes
 
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>

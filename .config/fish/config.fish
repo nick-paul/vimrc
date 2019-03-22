@@ -1,10 +1,13 @@
 abbr gs git status
 abbr gaa "git add --all"
+abbr gd "git diff"
 abbr fdir "find . | grep"
 abbr aya "rlwrap java -jar ~/Documents/git/aya-lang/aya.jar -i"
 abbr icat "kitty +kitten icat"
 
 abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
+
+abbr ytdl "youtube-dl -x --audio-format mp3 --no-playlist"
 
 # pyenv
 if test -d ~/.pyenv
