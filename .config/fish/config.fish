@@ -9,6 +9,8 @@ abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir)
 
 abbr ytdl "youtube-dl -x --audio-format mp3 --no-playlist"
 
+git config --global alias.adog "log --all --decorate --oneline --graph"
+
 # pyenv
 if test -d ~/.pyenv
     set -q PYENV_ROOT; or set -l PYENV_ROOT $HOME/.pyenv

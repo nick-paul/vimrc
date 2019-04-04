@@ -124,7 +124,7 @@ if has('nvim')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
     " Enable sign column for cpp files
-    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.py setlocal signcolumn=yes
+    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.py,*.lua setlocal signcolumn=yes
 
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
