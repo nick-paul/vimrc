@@ -1,0 +1,115 @@
+[xfdesktop-version-4.10.3+-rcfile_format]
+4.10.3+=true
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-13-53.png]
+row=2
+col=1
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-24-16.png]
+row=1
+col=1
+
+[/home/npaul/Desktop/train_12real_largeBbox60.csv]
+row=7
+col=0
+
+[/home/npaul/Desktop/dqnloop.py]
+row=2
+col=2
+
+[/home/npaul/Desktop/labels.csv]
+row=6
+col=0
+
+[/home/npaul/Desktop/unreal_crash.txt]
+row=5
+col=2
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 09-31-21.png]
+row=8
+col=1
+
+[/home/npaul/Desktop/shadow_chips_noBulldozers.csv]
+row=9
+col=0
+
+[/home/npaul/Desktop/gol.cpp]
+row=4
+col=2
+
+[/home/npaul/Desktop/shadow_db.json]
+row=5
+col=1
+
+[/home/npaul/Desktop/config.json]
+row=9
+col=1
+
+[/home/npaul/Desktop/notes.md]
+row=2
+col=4
+
+[/home/npaul/Desktop/lua_fns.md]
+row=3
+col=2
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-11-35.png]
+row=6
+col=1
+
+[/home/npaul/Desktop/tree_example.txt]
+row=0
+col=2
+
+[/home/npaul/Desktop/model_after_epoch_19.pt]
+row=4
+col=0
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-21-21.png]
+row=3
+col=1
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 08-56-26.png]
+row=4
+col=1
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-15-53.png]
+row=0
+col=1
+
+[/home/npaul/Desktop/Image Tree.html]
+row=1
+col=2
+
+[/home/npaul/Desktop/tree.py]
+row=3
+col=0
+
+[/home/npaul/Desktop/Action Tree Tests.html]
+row=5
+col=0
+
+[/home/npaul/Desktop/Screenshot from 2019-04-18 14-10-44.png]
+row=7
+col=1
+
+[/home/npaul/Desktop/train_largeBbox60.csv]
+row=8
+col=0
+
+[/home/npaul/Desktop/val_largeBbox60.csv]
+row=6
+col=2
+
+[Trash]
+row=0
+col=0
+
+[/]
+row=1
+col=0
+
+[/home/npaul]
+row=2
+col=0
+

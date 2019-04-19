@@ -4,6 +4,7 @@ abbr gd "git diff"
 abbr fdir "find . | grep"
 abbr aya "rlwrap java -jar ~/Documents/git/aya-lang/aya.jar -i"
 abbr icat "kitty +kitten icat"
+abbr jupnb "jupyter notebook"
 
 abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
 
