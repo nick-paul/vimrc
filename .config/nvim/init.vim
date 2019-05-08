@@ -88,11 +88,15 @@ Plug 'majutsushi/tagbar'
 Plug 'dyng/ctrlsf.vim'
 " Edit fish files
 Plug 'dag/vim-fish'
+" Swap between cpp and h files quickly
+Plug 'ericcurtin/CurtineIncSw.vim'
 
 
 
 if has('nvim')
     Plug 'w0rp/ale'
+    Plug 'kassio/neoterm' " Terminal helper tools
+
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
@@ -124,7 +128,7 @@ if has('nvim')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
     " Enable sign column for cpp files
-    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.py,*.lua setlocal signcolumn=yes
+    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.lua,*.py setlocal signcolumn=yes
 
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
@@ -188,6 +192,8 @@ set list listchars=tab:»·,trail:·
 " Spellcheck highlighting
 hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red
+set splitbelow
+set splitright
 
 " When the completion menu is shown, <CR> will select the
 "   current item without inserting a newline
@@ -215,7 +221,7 @@ let ctrlp_switch_buffer = 1             " switch to existing buffer if one is op
 set wildignore+=*build/*,*.swp*.o,*.zip
 
 " Tagbar quick search
-nnoremap \ :TagbarOpenAutoClose <CR> /
+"nnoremap \ :TagbarOpenAutoClose <CR> /
 
 " Minimap
 let g:minimap_highlight='Visual'
@@ -239,6 +245,9 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
+" CurtintIncSw (cpp/h switching)
+map <leader><leader>c :call CurtineIncSw()<CR>
+
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1   " NERDTree autostart on directory
@@ -247,12 +256,22 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeShowHidden=1                " show hidden files
 
-" Comfortable Motion
 if has('nvim')
+
+    " Comfortable Motion
     nnoremap <silent> <PageDown> :call comfortable_motion#flick(100)<CR>
     nnoremap <silent> <PageUp> :call comfortable_motion#flick(-100)<CR>
     nnoremap <silent> <S-Up> :call comfortable_motion#flick(-100)<CR>
     nnoremap <silent> <S-Down> :call comfortable_motion#flick(100)<CR>
+
+    " Neoterm
+    let g:neoterm_autoscroll = '1'
+    let g:neoterm_size = 16
+    command! -nargs=+ TT Topen | T
+    nnoremap <leader>` :Ttoggle<CR>
+    let g:neoterm_default_mod='belowright'
+    nnoremap <leader><C-b> :TREPLSendFile<CR>
+    vnoremap <leader><C-b> :TREPLSendSelection<CR>
 endif
 
 " SuperTab
@@ -304,10 +323,10 @@ inoremap <leader><leader> <Esc>
 nnoremap <leader>n :set number!<CR>
 nnoremap <leader>p :set paste<CR>p :set nopaste<CR>
 " Window Navigation
-nnoremap <leader>a <C-w><Left>
-nnoremap <leader>d <C-w><Right>
-nnoremap <leader>w <C-w><Up>
-nnoremap <leader>s <C-w><Down>
+map <C-Left> <C-w><Left>
+map <C-Right> <C-w><Right>
+map <C-Up> <C-w><Up>
+map <C-Down> <C-w><Down>
 " Toggle syntastic checking
 nnoremap <leader><leader>s :SyntasticToggleMode<CR>
 " move selected lines up one line
@@ -332,6 +351,10 @@ nnoremap <leader>; ea<C-X>s
 " Quick Tab Movements
 nnoremap << gT
 nnoremap >> gt
+
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+end
 
 
 " Running / Building Files
@@ -453,7 +476,7 @@ function! ToggleTagbar ()
     endif
 endfunction
 
-nnoremap <leader>t :call ToggleTagbar()<CR>
+nnoremap \ :call ToggleTagbar()<CR>
 
 " Notes
 " gg=G  Reindent the entire document
