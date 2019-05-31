@@ -95,6 +95,21 @@ Plug 'ericcurtin/CurtineIncSw.vim'
 
 if has('nvim')
     Plug 'w0rp/ale'
+
+    let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
+    let b:ale_fixers = [
+    \   'remove_trailing_lines',
+    \   'isort',
+    \   'ale#fixers#generic_python#BreakUpLongLines',
+    \   'yapf',
+    \]
+
+    Plug 'python-mode/python-mode'
+    let g:pymode_folding = 0
+    let g:pymode_virtualenv_path = glob('~/.pyenv/')
+    let g:pymode_lint = 0 " use ale
+    let g:pymode_rope_completion = 0
+
     Plug 'kassio/neoterm' " Terminal helper tools
 
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -436,6 +451,11 @@ function! ToggleGoyoView ()
         let g:is_using_goyo = 1
     endif
 endfunction
+
+let python_console = 'ipython'
+if !empty(glob('~/.pyenv/shims/jupyter'))
+    let g:python_console='python'
+end
 
 nnoremap <leader>g :call ToggleGoyoView()<CR>
 
