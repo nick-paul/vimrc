@@ -1,23 +1,31 @@
-abbr gs git status
-abbr gaa "git add --all"
-abbr gd "git diff"
-abbr fdir "find . | grep"
-abbr aya "rlwrap java -jar ~/Documents/git/aya-lang/aya.jar -i"
-abbr icat "kitty +kitten icat"
-abbr jupnb "jupyter notebook"
+if status --is-interactive
+    abbr gs git status
+    abbr gaa "git add --all"
+    abbr gd "git diff"
+    abbr fdir "find . | grep"
+    abbr aya "rlwrap java -jar ~/Documents/git/aya-lang/aya.jar -i"
+    abbr icat "kitty +kitten icat"
+    abbr jupnb "jupyter notebook"
 
-abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
+    abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
 
-abbr ytdl "youtube-dl -x --audio-format mp3 --no-playlist"
+    abbr ytdl "youtube-dl -x --audio-format mp3 --no-playlist"
 
-git config --global alias.adog "log --all --decorate --oneline --graph"
+    git config --global alias.adog "log --all --decorate --oneline --graph"
 
-# pyenv
-if test -d ~/.pyenv
-    set -q PYENV_ROOT; or set -l PYENV_ROOT $HOME/.pyenv
-    set PATH $PYENV_ROOT/shims $PYENV_ROOT/bin $PATH
-    status --is-interactive; and source (pyenv init -|psub)
-    status --is-interactive; and source (pyenv virtualenv-init -|psub)
+    # pyenv
+    if test -d ~/.pyenv
+        set -q PYENV_ROOT; or set -l PYENV_ROOT $HOME/.pyenv
+        set PATH $PYENV_ROOT/shims $PYENV_ROOT/bin $PATH
+        status --is-interactive; and source (pyenv init -|psub)
+        status --is-interactive; and source (pyenv virtualenv-init -|psub)
+
+
+    end
+
+    if pyenv versions | grep -q andy-rlice
+        pyenv activate andy-rlice
+    end
 end
 
 # Various path variables
@@ -33,3 +41,4 @@ for p in $ADD_TO_PATH
         set PATH "$p" $PATH
     end
 end
+
