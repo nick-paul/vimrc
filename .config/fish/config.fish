@@ -7,6 +7,11 @@ if status --is-interactive
     abbr icat "kitty +kitten icat"
     abbr jupnb "jupyter notebook"
 
+    # ROS
+    abbr ros "source /opt/ros/melodic/share/rosbash/rosfish"
+    abbr sds "bass source devel/setup.bash"
+    abbr catkin_unmake "bass source devel/setup.bash; trash -rf build/ devel/"
+
     abbr rr 'ranger --choosedir=$HOME/.rangerdir; set LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
 
     abbr ytdl "youtube-dl -x --audio-format mp3 --no-playlist"
@@ -23,16 +28,19 @@ if status --is-interactive
 
     end
 
-    if pyenv versions | grep -q andy-rlice
-        pyenv activate andy-rlice
-    end
+    #if pyenv versions | grep -q andy-rlice
+        #pyenv activate andy-rlice
+    #end
+
+    set -g theme_nerd_fonts yes
+    set -g theme_display_date no
 end
 
 # Various path variables
 
 set ADD_TO_PATH \
     ~/blender-2.79b-linux-glibc219-x86_64 \
-    /opt/julia-1.0.3/bin \
+    /opt/julia-1.1.1/bin \
     /opt/cling/bin \
     ~/.local/kitty.app/bin
 

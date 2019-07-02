@@ -81,9 +81,6 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 
-
-"Plug 'davidhalter/jedi-vim'
-
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
 " Edit fish files
@@ -94,6 +91,7 @@ Plug 'ericcurtin/CurtineIncSw.vim'
 
 
 if has('nvim')
+
     Plug 'w0rp/ale'
 
     let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
@@ -143,7 +141,7 @@ if has('nvim')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
     " Enable sign column for cpp files
-    autocmd BufRead,BufNewFile *.cpp,*.hpp,*.lua,*.py setlocal signcolumn=yes
+    autocmd BufRead,BufNewFile *.fish,*.cpp,*.hpp,*.lua,*.py setlocal signcolumn=yes
 
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
@@ -270,6 +268,8 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " NERDTree exit vim if only NERDTree is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeShowHidden=1                " show hidden files
+" Hide certain files
+let NERDTreeIgnore=['\.pyc$']
 
 if has('nvim')
 
@@ -326,10 +326,10 @@ nnoremap <leader>gd :Gdiff <CR>
 """"""""""""""""
 
 " run in browser
-""nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
-nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
+nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+"nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
 " preveew markdown in browser
-nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !open %:r.html'<CR><C-l>
+nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
 
 " Quick Settings
 nnoremap <C-\> :NERDTreeToggle<CR>
@@ -482,6 +482,15 @@ function! ToggleLightDark ()
 endfunction
 
 nnoremap <leader><C-t> :call ToggleLightDark()<CR>
+
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
 
 
 " Tagbar Toggle
