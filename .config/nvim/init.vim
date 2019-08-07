@@ -35,6 +35,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'nick-paul/aya-vim'
 " Tree view
 Plug 'scrooloose/nerdtree'
+" Home screen
+Plug 'mhinz/vim-startify'
 " Alignment
 Plug 'godlygeek/tabular'
 " Markdown
@@ -81,6 +83,11 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 
+"Plug 'taketwo/vim-ros'
+
+
+"Plug 'davidhalter/jedi-vim'
+
 " Async project searching
 Plug 'dyng/ctrlsf.vim'
 " Edit fish files
@@ -91,7 +98,8 @@ Plug 'ericcurtin/CurtineIncSw.vim'
 
 
 if has('nvim')
-
+    "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+    
     Plug 'w0rp/ale'
 
     let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
@@ -136,6 +144,7 @@ if has('nvim')
     Plug 'junegunn/fzf.vim'
     nnoremap <C-p> :FZF <CR>
 
+    "Plug 'ctrlpvim/ctrlp.vim'
     " undo files
     call mkdir(glob('~/') . '.var/neovim/undofiles', 'p')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
@@ -270,6 +279,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeShowHidden=1                " show hidden files
 " Hide certain files
 let NERDTreeIgnore=['\.pyc$']
+let g:NERDTreeUpdateOnWrite = 0
 
 if has('nvim')
 
@@ -510,3 +520,17 @@ nnoremap \ :call ToggleTagbar()<CR>
 " Notes
 " gg=G  Reindent the entire document
 " :%s/\s\+$//e  Remove all trailing whitespace
+"
+"
+
+
+let g:startify_custom_header = [
+\ '    _   _                      _            ',
+\ '   | \ | |                    (_)           ',
+\ '   |  \| |  ___   ___  __   __ _  _ __ ___  ',
+\ '   | . ` | / _ \ / _ \ \ \ / /| || `_ ` _ \ ',
+\ '   | |\  ||  __/| (_) | \ V / | || | | | | |',
+\ '   \_| \_/ \___| \___/   \_/  |_||_| |_| |_|',
+\ ]
+                                         
+                                         
