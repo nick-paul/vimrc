@@ -133,7 +133,8 @@ if has('nvim')
     \ 'cpp': ['cquery',
     \ '--log-file=/tmp/cq.log',
     \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-    \ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')]
+    \ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')],
+    \ 'javascript': ['javascript-typescript-stdio']
     \ }
 
     " Inactive buffer fading
@@ -150,7 +151,7 @@ if has('nvim')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
     " Enable sign column for cpp files
-    autocmd BufRead,BufNewFile *.fish,*.cpp,*.hpp,*.lua,*.py setlocal signcolumn=yes
+    autocmd BufRead,BufNewFile *.fish,*.cpp,*.hpp,*.lua,*.py,*.js setlocal signcolumn=yes
 
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
@@ -255,7 +256,7 @@ let g:vim_markdown_folding_disabled = 1
 let g:pandoc#modules#disabled = ["folding"]
 
 " Syntastic
-let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_checkers = ['pylint', 'mypy']
 let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 
 " vim-pandoc
@@ -304,7 +305,7 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " XHTML Autoclose
-let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.launch'
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.launch,*.js'
 let g:closetag_shortcut = '>'
 
 
@@ -376,6 +377,18 @@ nnoremap <leader>; ea<C-X>s
 " Quick Tab Movements
 nnoremap << gT
 nnoremap >> gt
+
+" Remaps
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+call SetupCommandAlias("W","w")
+call SetupCommandAlias("Q","q")
+call SetupCommandAlias("Wa","wa")
+call SetupCommandAlias("Qa","qa")
+call SetupCommandAlias("Wq","wq")
 
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
@@ -533,4 +546,27 @@ let g:startify_custom_header = [
 \ '   \_| \_/ \___| \___/   \_/  |_||_| |_| |_|',
 \ ]
                                          
-                                         
+
+" Remove newbie crutches in Command Mode
+cnoremap <Down> <Nop>
+cnoremap <Left> <Nop>
+cnoremap <Right> <Nop>
+cnoremap <Up> <Nop>
+
+" Remove newbie crutches in Insert Mode
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+inoremap <Up> <Nop>
+
+" Remove newbie crutches in Normal Mode
+nnoremap <Down> <Nop>
+nnoremap <Left> <Nop>
+nnoremap <Right> <Nop>
+nnoremap <Up> <Nop>
+
+" Remove newbie crutches in Visual Mode
+vnoremap <Down> <Nop>
+vnoremap <Left> <Nop>
+vnoremap <Right> <Nop>
+vnoremap <Up> <Nop>
