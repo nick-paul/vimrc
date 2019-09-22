@@ -42,7 +42,8 @@ set ADD_TO_PATH \
     ~/blender-2.79b-linux-glibc219-x86_64 \
     /opt/julia-1.1.1/bin \
     /opt/cling/bin \
-    ~/.local/kitty.app/bin
+    ~/.local/kitty.app/bin \
+    /opt/nvim/bin
 
 for p in $ADD_TO_PATH
     if test -d "$p"

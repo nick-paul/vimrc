@@ -26,6 +26,10 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 set tags=./tags;/
 set tags+=~/.vim/tags/cpp
 
+set pumblend=24
+set pumheight=10
+set termguicolors
+
 
 " VimPlug
 """""""""""""
@@ -43,7 +47,7 @@ Plug 'godlygeek/tabular'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 " Tab completions
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 " Minimap
 Plug 'severin-lemaignan/vim-minimap'
 " sublime text style multiple cursors
@@ -83,6 +87,8 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'majutsushi/tagbar'
 
+Plug 'blindFS/vim-taskwarrior'
+
 "Plug 'taketwo/vim-ros'
 
 
@@ -97,45 +103,75 @@ Plug 'ericcurtin/CurtineIncSw.vim'
 
 
 
+
 if has('nvim')
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-    
-    Plug 'w0rp/ale'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
-    let b:ale_fixers = [
-    \   'remove_trailing_lines',
-    \   'isort',
-    \   'ale#fixers#generic_python#BreakUpLongLines',
-    \   'yapf',
-    \]
+    " use <tab> for trigger completion and navigate to the next complete item
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 
-    Plug 'python-mode/python-mode'
-    let g:pymode_folding = 0
-    let g:pymode_virtualenv_path = glob('~/.pyenv/')
-    let g:pymode_lint = 0 " use ale
-    let g:pymode_rope_completion = 0
+    inoremap <silent><expr> <Tab>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<Tab>" :
+          \ coc#refresh()
+
+    let g:coc_snippet_next = '<tab>'
+
+    " Plugin key-mappings.
+    " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+    imap <C-j>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-j>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-j>     <Plug>(neosnippet_expand_target)
+
+    " For conceal markers.
+    if has('conceal')
+      set conceallevel=2 concealcursor=niv
+    endif
+
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'sbdchd/neoformat'
+
+    "Plug 'w0rp/ale'
+
+    "let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
+    "let b:ale_fixers = [
+    "\   'remove_trailing_lines',
+    "\   'isort',
+    "\   'ale#fixers#generic_python#BreakUpLongLines',
+    "\   'yapf',
+    "\]
+
+    "Plug 'python-mode/python-mode'
+    "let g:pymode_folding = 0
+    "let g:pymode_virtualenv_path = glob('~/.pyenv/')
+    "let g:pymode_lint = 0 " use ale
+    "let g:pymode_rope_completion = 0
 
     Plug 'kassio/neoterm' " Terminal helper tools
 
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "Plug 'autozimu/LanguageClient-neovim', {
+        "\ 'branch': 'next',
+        "\ 'do': 'bash install.sh',
+        "\ }
 
-    call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
+    "call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
 
-    let g:LanguageClient_serverCommands = {
-    \ 'c': ['cquery',
-    \ '--log-file=/tmp/cq.log',
-    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-    \ 'cpp': ['cquery',
-    \ '--log-file=/tmp/cq.log',
-    \ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-    \ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')],
-    \ 'javascript': ['javascript-typescript-stdio']
-    \ }
+    "let g:LanguageClient_serverCommands = {
+    "\ 'c': ['cquery',
+    "\ '--log-file=/tmp/cq.log',
+    "\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+    "\ 'cpp': ['cquery',
+    "\ '--log-file=/tmp/cq.log',
+    "\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
+    "\ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')],
+    "\ 'javascript': ['javascript-typescript-stdio']
+    "\ }
 
     " Inactive buffer fading
     Plug 'TaDaa/vimade'
@@ -153,9 +189,9 @@ if has('nvim')
     " Enable sign column for cpp files
     autocmd BufRead,BufNewFile *.fish,*.cpp,*.hpp,*.lua,*.py,*.js setlocal signcolumn=yes
 
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    "nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    "nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    "nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 else
     Plug 'vim-syntastic/syntastic'
@@ -545,13 +581,38 @@ let g:startify_custom_header = [
 \ '   | |\  ||  __/| (_) | \ V / | || | | | | |',
 \ '   \_| \_/ \___| \___/   \_/  |_||_| |_| |_|',
 \ ]
-                                         
 
-" Remove newbie crutches in Command Mode
-cnoremap <Down> <Nop>
-cnoremap <Left> <Nop>
-cnoremap <Right> <Nop>
-cnoremap <Up> <Nop>
+
+
+" Transparent editing of gpg encrypted files.
+" By Wouter Hanegraaff
+augroup encrypted
+  au!
+
+  " First make sure nothing is written to ~/.viminfo while editing
+  " an encrypted file.
+  autocmd BufReadPre,FileReadPre *.gpg set viminfo=
+  " We don't want a various options which write unencrypted data to disk
+  autocmd BufReadPre,FileReadPre *.gpg set noswapfile noundofile nobackup
+
+  " Switch to binary mode to read the encrypted file
+  autocmd BufReadPre,FileReadPre *.gpg set bin
+  autocmd BufReadPre,FileReadPre *.gpg let ch_save = &ch|set ch=2
+  " (If you use tcsh, you may need to alter this line.)
+  autocmd BufReadPost,FileReadPost *.gpg '[,']!gpg --decrypt 2> /dev/null
+
+  " Switch to normal mode for editing
+  autocmd BufReadPost,FileReadPost *.gpg set nobin
+  autocmd BufReadPost,FileReadPost *.gpg let &ch = ch_save|unlet ch_save
+  autocmd BufReadPost,FileReadPost *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
+
+  " Convert all text to encrypted text before writing
+  " (If you use tcsh, you may need to alter this line.)
+  autocmd BufWritePre,FileWritePre *.gpg '[,']!gpg --default-recipient-self -ae 2>/dev/null
+  " Undo the encryption so we are back in the normal text, directly
+  " after the file has been written.
+  autocmd BufWritePost,FileWritePost *.gpg u
+augroup END
 
 " Remove newbie crutches in Insert Mode
 inoremap <Down> <Nop>
