@@ -4,8 +4,6 @@ filetype off                  " required
 let mapleader = ","
 set backspace=2
 
-
-
 " Neovim Init Settings
 if has('nvim')
     let s:uname = system("uname")
@@ -22,10 +20,6 @@ end
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
-" Tags
-set tags=./tags;/
-set tags+=~/.vim/tags/cpp
-
 set pumblend=24
 set pumheight=10
 set termguicolors
@@ -37,190 +31,96 @@ set termguicolors
 call plug#begin('~/.vim/plugged')
 
 Plug 'nick-paul/aya-vim'
-" Tree view
-Plug 'scrooloose/nerdtree'
-" Home screen
-Plug 'mhinz/vim-startify'
-" Alignment
-Plug 'godlygeek/tabular'
-" Markdown
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-" Tab completions
-"Plug 'ervandew/supertab'
-" Minimap
-Plug 'severin-lemaignan/vim-minimap'
-" sublime text style multiple cursors
-Plug 'terryma/vim-multiple-cursors'
-" View indent guides (:IndentGuides*)
-Plug 'nathanaelkane/vim-indent-guides'
-" Better status bar
-Plug 'bling/vim-airline'
-" Git wrapper
-Plug 'tpope/vim-fugitive'
-" Git line modification ui
-Plug 'airblade/vim-gitgutter'
-" NERDTree git ui
-Plug 'Xuyuanp/nerdtree-git-plugin'
-" Enhanced C++ highlighting
-Plug 'octol/vim-cpp-enhanced-highlight'
-" airline themes
-Plug 'vim-airline/vim-airline-themes'
-" Distraction free writing
-Plug 'junegunn/goyo.vim'
-" Pyhsics based scrolling
-Plug 'yuttie/comfortable-motion.vim'
-" Colorscheme Management
-Plug 'flazz/vim-colorschemes'
-" Quickly comment selections
-Plug 'scrooloose/nerdcommenter'
-" Vim LaTeX
-Plug 'lervag/vimtex'
-" Autoclose (X)HTML tage
-Plug 'alvan/vim-closetag'
-" Rainbow parens
+Plug 'scrooloose/nerdtree'  " Tree View
+Plug 'vim-pandoc/vim-pandoc' " Markdown
+Plug 'vim-pandoc/vim-pandoc-syntax' " Markdown
+Plug 'vim-scripts/SearchComplete' " Tab completion when using '/'
+Plug 'terryma/vim-multiple-cursors' " sublime text style multiple cursors
+Plug 'nathanaelkane/vim-indent-guides' " View indent guides (:IndentGuides*)
+Plug 'bling/vim-airline' " Better status bar
+Plug 'tpope/vim-fugitive' " Git wrapper
+Plug 'airblade/vim-gitgutter' " Git line modification ui
+Plug 'Xuyuanp/nerdtree-git-plugin' " NERDTree git ui
+Plug 'octol/vim-cpp-enhanced-highlight' " Enhanced C++ highlighting
+Plug 'vim-airline/vim-airline-themes' " airline themes
+Plug 'yuttie/comfortable-motion.vim' " Pyhsics based scrolling
+Plug 'flazz/vim-colorschemes' " Colorscheme Management
+Plug 'scrooloose/nerdcommenter' " Quickly comment selections
+Plug 'lervag/vimtex' " Vim LaTeX
+Plug 'alvan/vim-closetag' " Autoclose (X)HTML tags
 Plug 'kien/rainbow_parentheses.vim'
-
-" Other languages:
-Plug 'JuliaEditorSupport/julia-vim'
-Plug 'rust-lang/rust.vim'
-
+Plug 'JuliaEditorSupport/julia-vim' " Julia Support
+Plug 'rust-lang/rust.vim' " Rust Support
+Plug 'dag/vim-fish'     " Fish Support
 Plug 'majutsushi/tagbar'
+Plug 'dyng/ctrlsf.vim'  " Async project searching
+Plug 'ericcurtin/CurtineIncSw.vim' " Swap between cpp and h files quickly
 
-Plug 'blindFS/vim-taskwarrior'
-
-"Plug 'taketwo/vim-ros'
-
-
-"Plug 'davidhalter/jedi-vim'
-
-" Async project searching
-Plug 'dyng/ctrlsf.vim'
-" Edit fish files
-Plug 'dag/vim-fish'
-" Swap between cpp and h files quickly
-Plug 'ericcurtin/CurtineIncSw.vim'
-
-
-
+" Plug 'mhinz/vim-startify' " Home Screen
+" Plug 'godlygeek/tabular'   " Tab alignment for creating tables
+" Plug 'junegunn/goyo.vim' " Distraction free writing
 
 if has('nvim')
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " use <tab> for trigger completion and navigate to the next complete item
-    function! s:check_back_space() abort
+    inoremap <silent><expr> <Tab>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>my_check_back_space() ? "\<Tab>" :
+          \ coc#refresh()
+
+    function! s:my_check_back_space() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~ '\s'
     endfunction
 
-    inoremap <silent><expr> <Tab>
-          \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<Tab>" :
-          \ coc#refresh()
-
     let g:coc_snippet_next = '<tab>'
 
+    " Neo Snippet
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'sbdchd/neoformat'
     " Plugin key-mappings.
-    " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+    " Note: It must be 'imap' and 'smap'.  It uses <Plug> mappings.
     imap <C-j>     <Plug>(neosnippet_expand_or_jump)
     smap <C-j>     <Plug>(neosnippet_expand_or_jump)
     xmap <C-j>     <Plug>(neosnippet_expand_target)
 
     " For conceal markers.
-    if has('conceal')
-      set conceallevel=2 concealcursor=niv
-    endif
-
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'sbdchd/neoformat'
-
-    "Plug 'w0rp/ale'
-
-    "let b:ale_linters = {'python': ['flake8', 'mypy', 'pylint']}
-    "let b:ale_fixers = [
-    "\   'remove_trailing_lines',
-    "\   'isort',
-    "\   'ale#fixers#generic_python#BreakUpLongLines',
-    "\   'yapf',
-    "\]
-
-    "Plug 'python-mode/python-mode'
-    "let g:pymode_folding = 0
-    "let g:pymode_virtualenv_path = glob('~/.pyenv/')
-    "let g:pymode_lint = 0 " use ale
-    "let g:pymode_rope_completion = 0
+    "if has('conceal')
+      "set conceallevel=2 concealcursor=niv
+    "endif
 
     Plug 'kassio/neoterm' " Terminal helper tools
-
-    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "Plug 'autozimu/LanguageClient-neovim', {
-        "\ 'branch': 'next',
-        "\ 'do': 'bash install.sh',
-        "\ }
-
-    "call mkdir(glob('~/') . '.var/neovim/cquery', 'p')
-
-    "let g:LanguageClient_serverCommands = {
-    "\ 'c': ['cquery',
-    "\ '--log-file=/tmp/cq.log',
-    "\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-    "\ 'cpp': ['cquery',
-    "\ '--log-file=/tmp/cq.log',
-    "\ '--init={"cacheDirectory":"' . glob('~/.var/neovim/cquery/') . '"}'],
-    "\ 'python': [glob('~/.pyenv/versions/neovim3/bin/pyls')],
-    "\ 'javascript': ['javascript-typescript-stdio']
-    "\ }
-
-    " Inactive buffer fading
-    Plug 'TaDaa/vimade'
+    Plug 'TaDaa/vimade'   " Inactive buffer fading
 
     " fzf
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     nnoremap <C-p> :FZF <CR>
 
-    "Plug 'ctrlpvim/ctrlp.vim'
     " undo files
     call mkdir(glob('~/') . '.var/neovim/undofiles', 'p')
     set undodir=$HOME/.var/neovim/undofiles " where to save undo histories
 
-    " Enable sign column for cpp files
+    " Enable sign column for auto-linted files
     autocmd BufRead,BufNewFile *.fish,*.cpp,*.hpp,*.lua,*.py,*.js setlocal signcolumn=yes
-
-    "nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    "nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    "nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
 else
-    Plug 'vim-syntastic/syntastic'
-    "Plug 'Shougo/deoplete.nvim'
-    "Plug 'roxma/nvim-yarp'
-    "Plug 'roxma/vim-hug-neovim-rpc'
 
-    " Fuzzy file search
-    Plug 'ctrlpvim/ctrlp.vim'
-
+    Plug 'vim-syntastic/syntastic' " Linter
+    Plug 'ervandew/supertab'  " Simple tab completions
+    Plug 'ctrlpvim/ctrlp.vim' " Fuzzy file search
 endif
 
-" Icon support
-" Must be last
-Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons' "Icon support; must be LAST
 
 call plug#end()
 
+autocmd BufEnter *.* let b:term_title='foo'
+
 
 let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
-
-if has('nvim')
-    if has('unix')
-        let g:deoplete#enable_at_startup = 1
-        let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
-        let g:deoplete#sources#clang#clang_header = '/usr/include/clang/3.8.0/include/'
-    endif
-endif
-
 
 
 " COLOR / THEME
@@ -228,7 +128,6 @@ endif
 syntax on
 colorscheme Monokai         " :colorscheme <color>
 let g:airline_theme='dark'  " :AirlineTheme <color>
-
 
 
 " BASIC SETTINGS
@@ -280,7 +179,7 @@ let ctrlp_switch_buffer = 1             " switch to existing buffer if one is op
 set wildignore+=*build/*,*.swp*.o,*.zip
 
 " Tagbar quick search
-"nnoremap \ :TagbarOpenAutoClose <CR> /
+nnoremap \ :TagbarOpenAutoClose <CR> /
 
 " Minimap
 let g:minimap_highlight='Visual'
@@ -306,6 +205,8 @@ au Syntax * RainbowParenthesesLoadBraces
 
 " CurtintIncSw (cpp/h switching)
 map <leader><leader>c :call CurtineIncSw()<CR>
+
+vnoremap <A-Enter> :TREPLSendSelection<CR>
 
 
 " NERDTree
@@ -363,7 +264,6 @@ function! TagbarToggleStatusline()
 endfunction
 
 " fugitive
-
 nnoremap <leader>gs :Gstatus <CR>
 nnoremap <leader>gd :Gdiff <CR>
 
@@ -372,11 +272,6 @@ nnoremap <leader>gd :Gdiff <CR>
 " KEY MAPPINGS
 """"""""""""""""
 
-" run in browser
-nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
-"nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
-" preveew markdown in browser
-nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
 
 " Quick Settings
 nnoremap <C-\> :NERDTreeToggle<CR>
@@ -396,8 +291,8 @@ xnoremap <C-Up>  :m-2<CR>gv=gv
 " move selected lines down one line
 xnoremap <C-Down> :m'>+<CR>gv=gv
 " Tab / untab lines
-vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv
+vnoremap > >gv
+vnoremap < <gv
 " Don't copy when deleting
 nnoremap d "_d
 " Toggle Line Comments
@@ -437,7 +332,6 @@ end
 " :make to compile .c and cpp files
 au FileType cpp,c,rs setl mp=make\ %:t:r
 let $CXXFLAGS='-std=c++14'
-
 " python
 nnoremap <silent> <leader>bp :w<CR>:!clear;python2 %<CR>
 nnoremap <silent> <leader>bP :w<CR>:!clear;python3 %<CR>
@@ -447,7 +341,11 @@ nnoremap <leader>bc :w<CR>:make %:t:r<CR>
 nnoremap <silent> <leader>ml :w<CR>:!latexmk -c %<CR>:!gnome-open %:r.pdf<CR><CR>
 " pandoc
 nnoremap <silent> <leader>pd :w<CR>:!pandoc --variable urlcolor=cyan % -o %:r.pdf<CR>:!open %:r.pdf<CR>
-
+" run in browser
+nnoremap <leader>ff :w<CR> :exe ':silent !firefox %'<CR><C-l>
+"nnoremap <leader>ff :silent update<Bar>silent !open %:p &<CR><CR><C-l>
+" preveew markdown in browser
+nnoremap <leader>fm :w<CR> :! pandoc % -o %:r.html<CR> :exe ':silent !firefox %:r.html'<CR><C-l>
 
 " AUTOCORRECT
 """""""""""""""
@@ -511,12 +409,13 @@ function! ToggleGoyoView ()
     endif
 endfunction
 
-let python_console = 'ipython'
+nnoremap <leader>g :call ToggleGoyoView()<CR>
+
+let python_console = 'python3'
 if !empty(glob('~/.pyenv/shims/jupyter'))
     let g:python_console='python'
 end
 
-nnoremap <leader>g :call ToggleGoyoView()<CR>
 
 
 function! WSRemove ()
@@ -614,19 +513,13 @@ augroup encrypted
   autocmd BufWritePost,FileWritePost *.gpg u
 augroup END
 
-" Remove newbie crutches in Insert Mode
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-inoremap <Up> <Nop>
-
-" Remove newbie crutches in Normal Mode
+" Remove arrow keys in Normal Mode
 nnoremap <Down> <Nop>
 nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
 nnoremap <Up> <Nop>
 
-" Remove newbie crutches in Visual Mode
+" Remove arrow keys in Visual Mode
 vnoremap <Down> <Nop>
 vnoremap <Left> <Nop>
 vnoremap <Right> <Nop>
