@@ -1,4 +1,5 @@
-cp .config/fish/config.fish ~/.config/fish/config.fish
-cp .config/nvim/init.vim    ~/.config/nvim/init.vim
+mkdir -p ~/.config/nvim
+ln -s .config/fish/config.fish ~/.config/fish/config.fish
+ln -s .config/nvim/init.vim    ~/.config/nvim/init.vim
 cp .config/nvim/coc-settings.json    ~/.config/nvim/coc-settings.json
-cp .config/nvim/init.vim    ~/.vimrc
+ln -s .config/nvim/init.vim    ~/.vimrc

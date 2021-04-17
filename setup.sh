@@ -7,27 +7,18 @@ if [ "$(id -u)" == "0" ] && [ -z "$SUDO_USER" ]; then
   exit -1
 fi
 
-sudo apt update
-sudo apt upgrade
+#sudo apt update
+#sudo apt upgrade
 
 sudo apt install \
   curl \
   vim \
-  git \
-  build-essential \
-  cmake \
-  xfce4 \
-  htop \
-  openssh-server \
-  clang \
-  python \
-  python3 \
   neovim \
-  python-neovim \
-  python3-neovim \
+  git \
+  htop \
+  python3 \
   fonts-firacode \
   fish \
-  tldr
 
 # fzf
 if [ ! -d "${HOME}/.fzf" ]; then
@@ -35,6 +26,15 @@ if [ ! -d "${HOME}/.fzf" ]; then
     ~/.fzf/install
 fi
 
-#bash font/install-nerd.sh
-#bash pyenv/install.sh
-bash vim/setup.sh
+# Vim plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+CURDIR=$(pwd)
+mkdir -p ~/.config/nvim
+ln -sf $CURDIR/.config/fish/config.fish         ~/.config/fish/config.fish
+ln -sf $CURDIR/.config/nvim/init.vim            ~/.config/nvim/init.vim
+ln -sf $CURDIR/.config/nvim/init.vim            ~/.vimrc
+ln -sf $CURDIR/.config/nvim/coc-settings.json   ~/.config/nvim/coc-settings.json
+
+nvim --headless +PlugInstall +PlugUpdate +qa
