@@ -3,7 +3,7 @@ if status --is-interactive
     abbr gaa "git add --all"
     abbr gd "git diff"
     abbr fdir "find . | grep"
-    abbr aya "rlwrap java -jar ~/Documents/git/aya-lang/aya.jar -i"
+    abbr aya "rlwrap java -jar ~/git/aya/aya.jar -i"
     abbr icat "kitty +kitten icat"
     abbr jupnb "jupyter notebook"
     abbr ilua "rlwrap lua ~/Documents/git/ilua/repl.lua"
@@ -47,7 +47,7 @@ end
 set ADD_TO_PATH \
     #~/blender-2.79b-linux-glibc219-x86_64 \
     /opt/blender-2.81-linux-glibc217-x86_64 \
-    ~/julia-1.3.1/bin \
+    /opt/julia-1.6.0/bin \
     /opt/cling/bin \
     ~/.local/kitty.app/bin \
     /opt/nvim/bin \
