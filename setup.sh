@@ -19,6 +19,7 @@ sudo apt install \
   python3 \
   fonts-firacode \
   fish \
+  silversearcher-ag
 
 # fzf
 if [ ! -d "${HOME}/.fzf" ]; then
